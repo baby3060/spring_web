@@ -3,19 +3,104 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.spweb</groupId>
   <artifactId>spring_web</artifactId>
-  <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>spring_web Maven Webapp</name>
   <url>http://maven.apache.org</url>
+	<packaging>war</packaging>
+	
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <spring.version>5.1.5.RELEASE</spring.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+          </exclusion>
+        </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-web</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+      
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
     </dependency>
   </dependencies>
   <build>
     <finalName>spring_web</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <verbose>false</verbose>
+          <fork>true</fork>
+          <source>${maven.compiler.target}</source>
+          <target>${maven.compiler.target}</target>
+          <compilerVersion>${maven.compiler.target}</compilerVersion>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.3</version>
+				<configuration>
+					<warSourceDirectory>webapp</warSourceDirectory>
+				</configuration>
+			</plugin>
+      
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <path>/spring_web</path>
+          <!-- manager/text 고정 -->
+          <url>http://localhost:8383/manager/text</url>
+          <server>tomcatServer</server>
+        </configuration>
+      </plugin>
+
+    </plugins>
   </build>
 </project>
