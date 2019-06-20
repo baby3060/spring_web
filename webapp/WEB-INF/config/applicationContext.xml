@@ -3,6 +3,9 @@
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans
@@ -11,12 +14,40 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd
     "
 >   
-    <context:component-scan base-package="com.mvc.controller" />
+    
+    <tx:annotation-driven />
 
     <!-- MVC 애노테이션 사용 위한 전용태그(@Controller) -->
     <mvc:annotation-driven />
+
+    <util:properties id="dbprops" location="classpath:database.properties" />
+
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <property name="targetDataSource" ref="targetDataSource" />
+    </bean>
+
+    <bean id="targetDataSource" 
+            class="org.apache.commons.dbcp2.BasicDataSource"
+            destroy-method="close"
+            p:url="#{dbprops['db.host']}"
+            p:driverClassName="#{dbprops['db.className']}"
+            p:username="#{dbprops['db.username']}"
+            p:password="#{dbprops['db.password']}"
+            p:maxIdle="10"
+        />
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <context:component-scan base-package="com.mvc" />
 
     <mvc:default-servlet-handler />
 
@@ -24,5 +55,5 @@
     <mvc:view-resolvers>
         <mvc:jsp prefix="/WEB-INF/views/" />
     </mvc:view-resolvers>
-
+    
 </beans>

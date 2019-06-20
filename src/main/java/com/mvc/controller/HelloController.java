@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/")
 public class HelloController {
     @RequestMapping("/hello")
     public String hello(Model model, @RequestParam(value="name", required = false) String name) {
@@ -14,13 +13,13 @@ public class HelloController {
 
         model.addAttribute("greeting", "Hello~" + name + "!!!!");
 
-        return "hello";
+        return "hello/hello";
     }
     
     @RequestMapping("/hello2")
     public String hello2(Model model, @RequestParam(value="name", required = false) String name) {
         model.addAttribute("greeting", "Hell2o~" + name + "!!!!");
 
-        return "hello";
+        return "hello/hello";
     }
 }

@@ -10,5 +10,5 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
     "
 >
-    <bean class="com.mvc.controller.HelloController" />
+    
 </beans>
