@@ -7,19 +7,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HelloController {
-    @RequestMapping("/hello")
+    @RequestMapping("/main")
     public String hello(Model model, @RequestParam(value="name", required = false) String name) {
         System.out.println("HelloController");
 
         model.addAttribute("greeting", "Hello~" + name + "!!!!");
 
-        return "hello/hello";
-    }
-    
-    @RequestMapping("/hello2")
-    public String hello2(Model model, @RequestParam(value="name", required = false) String name) {
-        model.addAttribute("greeting", "Hell2o~" + name + "!!!!");
-
-        return "hello/hello";
+        return "main/index";
     }
 }

@@ -45,9 +45,16 @@ id="WebApp_ID" version="4.0">
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <!-- request 인코딩  -->
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
+    </init-param>
+    
+    <!-- response 인코딩  -->
+    <init-param>
+    	<param-name>forceEncoding</param-name>
+        <param-value>true</param-value>
     </init-param>
   </filter>
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm} %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) --- %cyan(%logger{20}) : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework.test.context.support.DefaultTestContextBootstrapper" level="OFF"/>
+
+    <!-- 커넥션 정보가 로그에 출력됨 -->
+    <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="OFF"/>
+
+    <!-- 커넥션 정보가 로그에 출력됨 -->
+    <logger name="org.springframework.jdbc.datasource.DataSourceUtils" level="OFF"/>
+    
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
