@@ -1,5 +1,11 @@
 package com.mvc.controller;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+
 import com.mvc.entity.Member;
 import com.mvc.service.MemberService;
 
@@ -30,6 +36,13 @@ public class RegisterController<memberService> {
         if( agreeWrap ) {
             result = "register/step2";
             model.addAttribute("registerMember", new Member());
+            
+            Map<String, String> loginTypes = new HashMap<String, String>();
+            loginTypes.put("1", "일반회원");
+            loginTypes.put("2", "기업회원");
+            loginTypes.put("3", "헤드헌터회원");
+            model.addAttribute("loginTypes", loginTypes);
+            model.addAttribute("favoriteFoodArr", new ArrayList<String>(Arrays.asList("사과", "바나나", "포도")));
         } 
 
         return result;
