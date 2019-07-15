@@ -32,7 +32,7 @@ public class Respondent {
             if( obj instanceof Respondent ) {
                 Respondent temp = (Respondent)obj;
 
-                return ((this.age == temp.age) && (this.location.equals(temp.location)));
+                return ((this.age == temp.getAge()) && (this.location.equals(temp.getLocation())));
             } else {
                 return false;
             }

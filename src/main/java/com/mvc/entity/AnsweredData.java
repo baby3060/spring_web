@@ -13,6 +13,10 @@ public class AnsweredData {
     public Respondent getRes() { return res; }
     public void setRes(Respondent res) { this.res = res; }
 
+    public String toString() {
+        return res.toString() + " : " + responses.toString();
+    }
+
     public boolean equals(Object obj) {
         if( obj == null ) {
             return false;
@@ -24,7 +28,7 @@ public class AnsweredData {
             if( obj instanceof AnsweredData) {
                 AnsweredData temp = (AnsweredData)obj;
 
-                return ((this.responses.equals(temp.responses)) && (this.res.equals(temp.res)));
+                return ((this.responses.equals(temp.getResponses())) && (this.res.equals(temp.getRes())));
             } else {
                 return false;
             }

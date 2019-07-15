@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -11,23 +12,20 @@
 <body>
 	<h2>Spring Form을 이용한 설문조사</h2>
     <form:form method="post" modelAttribute="answerData">
-        <p>
-            1. 당신의 역할은?<br />
-            <form:radiobutton path="responses[0]" value="서버" label="서버 개발자"/>
-            <form:radiobutton path="responses[0]" value="프론트" label="프론트 개발자"/>
-            <form:radiobutton path="responses[0]" value="풀스택" label="풀스택 개발자"/>
-        </p>
-        <p>
-            2. 가장 많이 사용하는 개발도구는?<br />
-            <form:radiobutton path="responses[1]" value="Eclipse" label="이클립스"/>
-            <form:radiobutton path="responses[1]" value="Intelij" label="인텔리 J"/>
-            <form:radiobutton path="responses[1]" value="Sublime" label="서브라임 텍스트"/>
-        </p>
-
-        <p>
-            3. 하고 싶은 말<br />
-            <form:input path="responses[2]" />
-        </p>
+        <c:forEach var="question" items="${questions}" varStatus="status">
+            <p>
+                ${status.index + 1}.${question.title}<br />
+                <c:if test="${question.choice}">
+                    <c:forEach var="text" items="${question.options}">
+                        <form:radiobutton path="responses[${status.index}]" value="${text}" label="${text}"/>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${!question.choice}">
+                    <form:input path="responses[${status.index}]" />
+                </c:if>
+            </p>
+        </c:forEach>
+        
 
         <p>
             <label>응답자 위치:<br />
