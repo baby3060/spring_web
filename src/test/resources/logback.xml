@@ -24,4 +24,8 @@
         <appender-ref ref="STDOUT" />
     </root>
 
+    <logger name="org.springframework.web.servlet" level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
 </configuration>
