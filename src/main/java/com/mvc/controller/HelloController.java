@@ -11,6 +11,10 @@ public class HelloController {
     public String hello(Model model, @RequestParam(value="name", required = false) String name) {
         System.out.println("HelloController");
 
+        if( name == null ) {
+            name = "Guest";
+        }
+
         model.addAttribute("greeting", "Hello~" + name + "!!!!");
 
         return "main/index";
