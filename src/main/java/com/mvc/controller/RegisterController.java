@@ -6,8 +6,11 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.mvc.controller.validator.RegisterMemberValidator;
 import com.mvc.entity.Member;
 import com.mvc.service.MemberService;
+
+import org.springframework.validation.Errors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,16 +52,24 @@ public class RegisterController<memberService> {
     }
 
     @RequestMapping(value = "/joinproc", method = RequestMethod.POST)
-    public String joinStep3(Model model, @ModelAttribute("registerMember") Member member) {
-        int result = memberService.regist(member);
+    public String joinStep3(Model model, @ModelAttribute("registerMember") Member member, Errors errors) {
+        new RegisterMemberValidator().validate(member, errors);
 
         String nextUrl = "";
-        
-        if( result == 1 ) {
-            nextUrl = "register/completeJoin";
-        } else {
+
+        if(errors.hasErrors()) {
             model.addAttribute("member", member);
             nextUrl = "register/step2";
+        } else {
+            int result = memberService.regist(member);
+
+            if( result == 1 ) {
+                nextUrl = "register/completeJoin";
+            } else {
+                model.addAttribute("member", member);
+                nextUrl = "register/step2";
+                errors.rejectValue("email", "duplicate");
+            }
         }
 
         return nextUrl;

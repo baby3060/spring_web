@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>    
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입 완료</title>
+<title><spring:message code="register.complete" /></title>
 </head>
 <body>
-	회원가입 완료
-    <p><strong>${registerMember.name}</strong> 가입 완료</p>
+	<spring:message code="register.complete" />
+    <p><spring:message code="register.done" arguments="${registerMember.name}" /></p>
     
-    <a href="<c:url value='/main'/>">첫 페이지로</a>
+    <a href="<c:url value='/main'/>">[<spring:message code="go.main" />]</a>
 </body>
 </html>

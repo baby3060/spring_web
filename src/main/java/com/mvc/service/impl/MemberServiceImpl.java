@@ -20,4 +20,8 @@ public class MemberServiceImpl implements MemberService {
         System.out.println(member);
         return 1;
     }
+
+    public int count(String email) {
+        return 1;
+    }
 }

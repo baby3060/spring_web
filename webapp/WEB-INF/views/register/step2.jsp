@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -7,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title><spring:message code="member.register" /></title>
 </head>
 <body>
     <h2>회원 정보 입력</h2>
@@ -15,31 +16,35 @@
         cssStyle="background-color : gray; color : red;"
     >
         <p>
-            <label for="email">이메일:<br />
+            <label for="email"><spring:message code="email" />:<br />
                 <form:input path="email" />
+                <form:errors path="email" />
             </label>
-            <form:checkbox path="allowMail" label="이메일 수신을 허용합니다." />
+            <form:checkbox path="allowMail" label="<spring:message code="email.allow" />" />
         </p>
 
         <p>
-            <label for="name">이름:<br />
+            <label for="name"><spring:message code="name" />:<br />
                 <form:input path="name" />
+                <form:errors path="name" />
             </label>
         </p>
 
         <p>
-            <label for="password">비밀번호:<br />
+            <label for="password"><spring:message code="password" />:<br />
                 <form:password path="password" />
+                <form:errors path="password" />
             </label>
         </p>
         <p>
-            <label for="confirmPassword">비밀번호 확인:<br />
+            <label for="confirmPassword"><spring:message code="password.confirm" />:<br />
                 <form:password path="confirmPassword" />
+                <form:errors path="confirmPassword" />
             </label>
         </p>
         
         <p>
-            <label for="loginType">회원유형:<br />
+            <label for="loginType"><spring:message code="member.type" />:<br />
                 <form:select path="loginType">
                     <option value="">---선택하세요.---</option>
                     <form:options items="${loginTypes}" />
@@ -48,12 +53,12 @@
         </p>
 
         <p>
-            <label for="">좋아하는 과일 : <br />
+            <label for=""><spring:message code="member.favoritefood" /> : <br />
                 <form:checkboxes items="${favoriteFoodArr}" path="favoriteFoods" />
             </label>
         </p>
 
-        <input type="submit" value="가입 완료">
+        <input type="submit" value="<spring:message code="register.btn"/>">
     </form:form>
 </body>
 </html>

@@ -10,4 +10,17 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
     "
 >
+    <bean id="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource"
+    >
+        <property name="basenames">
+            <list>
+                <!-- messages 패키지의 파일명 label -->
+                <value>messages.label</value>
+                <!-- Error 메세지를 담고 있는 properties 파일 -->
+                <value>messages.errors</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
 </beans>
