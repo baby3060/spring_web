@@ -20,7 +20,7 @@
                 <form:input path="email" />
                 <form:errors path="email" />
             </label>
-            <form:checkbox path="allowMail" label="<spring:message code="email.allow" />" />
+            <form:checkbox path="allowMail" label="이메일 수신을 허용합니다." />
         </p>
 
         <p>
@@ -58,7 +58,7 @@
             </label>
         </p>
 
-        <input type="submit" value="<spring:message code="register.btn"/>">
+        <input type="submit" value='<spring:message code="register.btn" />'>
     </form:form>
 </body>
 </html>

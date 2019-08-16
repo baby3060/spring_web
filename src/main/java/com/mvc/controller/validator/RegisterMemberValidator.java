@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 import com.mvc.entity.Member;
 
 public class RegisterMemberValidator implements Validator {
-    private final String EMAIL_REG_EXP = "^[_A-Za-z0-9\\+(\\.[_A-Za-z0-9-]+)*@" +
+    private final String EMAIL_REG_EXP = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
     "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     private Pattern pattern;
@@ -31,10 +31,11 @@ public class RegisterMemberValidator implements Validator {
                 errors.rejectValue("email", "bad");
             }
         }
-
+        
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "loginType", "required");
 
         if( !member.getPassword().isEmpty() ) {
             if( !member.getPassword().equals(member.getConfirmPassword()) ) {

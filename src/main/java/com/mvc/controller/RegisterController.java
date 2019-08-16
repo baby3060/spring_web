@@ -39,13 +39,7 @@ public class RegisterController<memberService> {
         if( agreeWrap ) {
             result = "register/step2";
             model.addAttribute("registerMember", new Member());
-            
-            Map<String, String> loginTypes = new HashMap<String, String>();
-            loginTypes.put("1", "일반회원");
-            loginTypes.put("2", "기업회원");
-            loginTypes.put("3", "헤드헌터회원");
-            model.addAttribute("loginTypes", loginTypes);
-            model.addAttribute("favoriteFoodArr", new ArrayList<String>(Arrays.asList("사과", "바나나", "포도")));
+            registerModel(model);
         } 
 
         return result;
@@ -53,11 +47,15 @@ public class RegisterController<memberService> {
 
     @RequestMapping(value = "/joinproc", method = RequestMethod.POST)
     public String joinStep3(Model model, @ModelAttribute("registerMember") Member member, Errors errors) {
+    	
         new RegisterMemberValidator().validate(member, errors);
 
         String nextUrl = "";
-
+        
+        
         if(errors.hasErrors()) {
+        	registerModel(model);
+            
             model.addAttribute("member", member);
             nextUrl = "register/step2";
         } else {
@@ -66,6 +64,7 @@ public class RegisterController<memberService> {
             if( result == 1 ) {
                 nextUrl = "register/completeJoin";
             } else {
+            	registerModel(model);
                 model.addAttribute("member", member);
                 nextUrl = "register/step2";
                 errors.rejectValue("email", "duplicate");
@@ -74,4 +73,14 @@ public class RegisterController<memberService> {
 
         return nextUrl;
     }
+    
+    private void registerModel(Model model) {
+    	Map<String, String> loginTypes = new HashMap<String, String>();
+        loginTypes.put("1", "일반회원");
+        loginTypes.put("2", "기업회원");
+        loginTypes.put("3", "헤드헌터회원");
+        model.addAttribute("loginTypes", loginTypes);
+        model.addAttribute("favoriteFoodArr", new ArrayList<String>(Arrays.asList("사과", "바나나", "포도")));
+    }
+    
 }
