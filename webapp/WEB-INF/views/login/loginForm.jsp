@@ -11,7 +11,7 @@
 <title><spring:message code="login.title" /></title>
 </head>
 <body>
-	<form:form commandName="command">
+	<form:form modelAttribute="command">
         <form:errors />
         <p>
             <label>

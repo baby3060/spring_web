@@ -25,7 +25,8 @@ public class LoginController {
     };
 
     @RequestMapping(method = RequestMethod.GET)
-    public String form(LoginCommand command) {
+    public String form(LoginCommand command, Model model) {
+        model.addAttribute("command", command);
         return "login/loginForm";
     }
 
@@ -33,8 +34,6 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String submit(LoginCommand command, Errors errors, Model model) {
         new LoginValidator().validate(command, errors);
-
-
 
         if( errors.hasErrors() ) {
             return "login/loginForm";
