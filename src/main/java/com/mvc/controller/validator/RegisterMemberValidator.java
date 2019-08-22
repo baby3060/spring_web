@@ -36,7 +36,7 @@ public class RegisterMemberValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "loginType", "required");
-
+        
         if( !member.getPassword().isEmpty() ) {
             if( !member.getPassword().equals(member.getConfirmPassword()) ) {
                 errors.rejectValue("confirmPassword", "nomatch");

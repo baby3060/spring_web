@@ -3,7 +3,6 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +10,8 @@
 <title><spring:message code="login.title" /></title>
 </head>
 <body>
-	<form:form modelAttribute="command">
-        <form:errors />
+	<form:form id="loginForm" modelAttribute="command">
+        <form:errors  />
         <p>
             <label>
                 <spring:message code="email" />:<br />
