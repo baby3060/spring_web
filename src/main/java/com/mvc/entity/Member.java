@@ -20,6 +20,14 @@ public class Member {
         this.loginType = loginType;
     }
 
+    public Member(String name, String email, String password, String loginType, boolean allowMail) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.loginType = loginType;
+        this.allowMail = allowMail;
+    }
+
     public String toString() {
         String favoStr = "";
         if( favoriteFoods != null ) {

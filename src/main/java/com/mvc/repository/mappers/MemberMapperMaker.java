@@ -26,6 +26,8 @@ public class MemberMapperMaker {
                 member.setName(rs.getString("name"));
                 member.setEmail(rs.getString("email"));
                 member.setPassword(rs.getString("password"));
+                member.setAllowMail(rs.getString("allow_mail").equals("T"));
+                member.setLoginType(rs.getString("login_type"));
 
                 return member;
             }

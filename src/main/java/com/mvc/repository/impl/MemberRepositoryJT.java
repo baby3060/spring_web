@@ -12,9 +12,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository("memberRepository")
 public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
+    
     @Resource(name="simpleMapper")
     private RowMapper<Member> simpleMapper;
 
+    @Override
     public int count(String email) {
         MapSqlParameterSource param = new MapSqlParameterSource();
 
@@ -26,7 +28,36 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
                                   , Integer.class);
     }
 
+    @Override
     public int regist(Member member) {
-        return 1;
+        MapSqlParameterSource param = new MapSqlParameterSource();
+
+        param.addValue("email", member.getEmail());
+        param.addValue("name", member.getName());
+        param.addValue("password", member.getPassword());
+        param.addValue("login_type", member.getLoginType());
+        param.addValue("allow_mail", member.getAllowMail()?"T":"F");
+
+        return this.getNamedParameterJdbcTemplate()
+                   .update("Insert Into TBMEMBER(email, name, password, login_type, allow_mail) Values (:email, :name, :password, :login_type, :allow_mail)", param);
+    }
+
+    @Override
+    public Member selectMember(String email) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+
+        param.addValue("email", email);
+
+        return this.getNamedParameterJdbcTemplate().queryForObject("Select email, name, password, login_type, allow_mail From TBMEMBER Where email = :email", param, simpleMapper);
+    }
+
+    @Override
+    public void deleteAll() {
+        this.getNamedParameterJdbcTemplate().update("Delete From TBMEMBER", new MapSqlParameterSource());
+    }
+
+    @Override
+    public long countAll() {
+        return this.getNamedParameterJdbcTemplate().queryForObject("Select Count(*) As cnt From TBMEMBER", new MapSqlParameterSource(), Long.class);
     }
 }

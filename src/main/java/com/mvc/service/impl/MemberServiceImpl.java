@@ -16,12 +16,14 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     public int regist(Member member) {
-        System.out.println("It is regist within MemberService");
-        System.out.println(member);
-        return 1;
+        return memberRepository.regist(member);
     }
 
     public int count(String email) {
-        return 1;
+        return memberRepository.count(email);
+    }
+
+    public Member selectMember(String email) {
+        return memberRepository.selectMember(email);
     }
 }
