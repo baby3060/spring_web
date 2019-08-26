@@ -1,5 +1,10 @@
 package com.mvc.controller;
 
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import com.mvc.controller.validator.LoginValidator;
 import com.mvc.entity.LoginCommand;
 import com.mvc.entity.UserInfo;
@@ -35,7 +40,7 @@ public class LoginController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public String submit(@ModelAttribute("command") LoginCommand command, Errors errors, Model model) {
+    public String submit(@ModelAttribute("command") LoginCommand command, Errors errors, Model model, HttpServletRequest request) {
         new LoginValidator().validate(command, errors);
 
         if( errors.hasErrors() ) {
@@ -46,8 +51,10 @@ public class LoginController {
         try {
             UserInfo info = authService.authenticate(command.getEmail(), command.getPassword());
 
-            // Session에 info 저장
-            model.addAttribute("info", info);
+            // HttpSession과 Request에서 getSession 가져오는 차이는 HttpSession을 받을 경우 항상 Session 객체 생성
+
+            HttpSession session = request.getSession();
+            session.setAttribute("info", info);
 
             return "login/loginSuccess";
         } catch(IDNotMatchingException idme) {

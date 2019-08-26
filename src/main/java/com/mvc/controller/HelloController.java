@@ -9,13 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HelloController {
     @RequestMapping("/main")
     public String hello(Model model, @RequestParam(value="name", required = false) String name) {
-        System.out.println("HelloController");
 
-        if( name == null ) {
-            name = "Guest";
-        }
-
-        model.addAttribute("greeting", "Hello~" + name + "!!!!");
+        model.addAttribute("greeting", "Hello~Guest!!!!");
 
         return "main/index";
     }
