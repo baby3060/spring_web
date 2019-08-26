@@ -60,4 +60,14 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
     public long countAll() {
         return this.getNamedParameterJdbcTemplate().queryForObject("Select Count(*) As cnt From TBMEMBER", new MapSqlParameterSource(), Long.class);
     }
+
+    @Override
+    public void updatePasswd(Member member, String newPasswd) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+
+        param.addValue("newPasswd", newPasswd);
+        param.addValue("email", member.getEmail());
+
+        this.getNamedParameterJdbcTemplate().update("Update TBMEMBER Set password = :newPasswd Where email = :email", param);
+    }
 }

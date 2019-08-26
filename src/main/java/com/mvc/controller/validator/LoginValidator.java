@@ -3,7 +3,7 @@ package com.mvc.controller.validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mvc.entity.LoginCommand;
+import com.mvc.command.LoginCommand;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

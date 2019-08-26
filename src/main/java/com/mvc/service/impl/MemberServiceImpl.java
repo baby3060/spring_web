@@ -26,4 +26,8 @@ public class MemberServiceImpl implements MemberService {
     public Member selectMember(String email) {
         return memberRepository.selectMember(email);
     }
+
+    public void updatePassword(Member member, String newPassword) {
+        memberRepository.updatePasswd(member, newPassword);
+    }
 }

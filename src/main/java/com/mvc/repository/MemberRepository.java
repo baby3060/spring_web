@@ -8,4 +8,5 @@ public interface MemberRepository {
     Member selectMember(String email);
     void deleteAll();
     long countAll();
+    void updatePasswd(Member member, String newPasswd);
 }

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.mvc.controller.validator.LoginValidator;
-import com.mvc.entity.LoginCommand;
+import com.mvc.command.LoginCommand;
 import com.mvc.entity.UserInfo;
 import com.mvc.service.AuthService;
 import com.mvc.service.exceptions.IDNotMatchingException;
