@@ -56,4 +56,13 @@
         <mvc:jsp prefix="/WEB-INF/views/" />
     </mvc:view-resolvers>
     
+    <bean id="loginInterceptor" class="com.mvc.controller.interceptor.LoginCheckInterceptor" />
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/member/**" />
+            <ref bean="loginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

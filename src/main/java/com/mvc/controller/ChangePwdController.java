@@ -45,35 +45,26 @@ public class ChangePwdController {
         }
 
         HttpSession session = req.getSession(); 
-
-        if( session.getAttribute("info") == null ) {
-            model.addAttribute("command", new LoginCommand());
-            errors.reject("NotLogin");
-            return "redirect:/login";
-        } else {
-            UserInfo info = (UserInfo)session.getAttribute("info");
-            if( (info.getEmail() != null) && (!info.getEmail().equals(""))) {
-                if( memberService.count(info.getEmail()) == 1) {
-                    Member member = memberService.selectMember(info.getEmail());
-
-                    if( member.getPassword().equals(command.getCurrentPassword()) ) {
-                        memberService.updatePassword(member, command.getNewPassword());
-                        return "member/changedPwd";
-                    } else {
-                        model.addAttribute("command", command);
-                        errors.rejectValue("currentPassword", "NotMatching.currentPassword");
-                        return "member/changePwdForm";
-                    }
-                } else {
-                    String[] args = {info.getEmail()};
-                    errors.reject("NOMember", args, "");
-                    return "redirect:/main";
-                }
-
-            } else {
-                return "redirect:/login";
-            }
-        }
         
+        UserInfo info = (UserInfo)session.getAttribute("info");
+        if( (info.getEmail() != null) && (!info.getEmail().equals(""))) {
+            if( memberService.count(info.getEmail()) == 1) {
+                Member member = memberService.selectMember(info.getEmail());
+                if( member.getPassword().equals(command.getCurrentPassword()) ) {
+                    memberService.updatePassword(member, command.getNewPassword());
+                    return "member/changedPwd";
+                } else {
+                    model.addAttribute("command", command);
+                    errors.rejectValue("currentPassword", "NotMatching.currentPassword");
+                    return "member/changePwdForm";
+                }
+            } else {
+                String[] args = {info.getEmail()};
+                errors.reject("NOMember", args, "");
+                return "redirect:/main";
+            }
+        } else {
+            return "redirect:/login";
+        }
     }
 }
