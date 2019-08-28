@@ -9,6 +9,8 @@ import lombok.*;
 public class LoginCommand {
     private String email;
     private String password;
+    // Email 기억할지 쿠키
+    private boolean rememberEmail;
 
     public String getEmail() {
         return email;
@@ -23,4 +25,11 @@ public class LoginCommand {
     public void setPassword(String password) {
         this.password = password;
     }
+    public boolean isRememberEmail() {
+        return rememberEmail;
+    }
+    public void setRememberEmail(boolean rememberEmail) {
+        this.rememberEmail = rememberEmail;
+    }
+
 }

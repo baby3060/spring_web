@@ -27,6 +27,14 @@
                 <form:errors path="password" />
             </label>
         </p>
+
+        <p>
+            <label>
+                <spring:message code="login.rememberEmail" />:<br />
+                <form:checkbox path="rememberEmail" />
+            </label>
+        </p>
+
         <input type="submit" value='<spring:message code="login.btn" />'>
     </form:form>
 </body>
