@@ -12,6 +12,8 @@ public class Member {
     private String[] favoriteFoods;
     private boolean allowMail = true;
 
+    private Level level;
+
     public Member() {}
     public Member(String name, String email, String password, String loginType) {
         this.name = name;
@@ -21,11 +23,13 @@ public class Member {
     }
 
     public Member(String name, String email, String password, String loginType, boolean allowMail) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.loginType = loginType;
+        this(name, email, password, loginType);
         this.allowMail = allowMail;
+    }
+
+    public Member(String name, String email, String password, String loginType, boolean allowMail, Level level) {
+        this(name, email, password, loginType, allowMail);
+        this.level = level;
     }
 
     public String toString() {
@@ -83,4 +87,7 @@ public class Member {
 
     public boolean getAllowMail() { return allowMail; }
     public void setAllowMail(boolean allowMail) { this.allowMail = allowMail; }
+
+    public Level getLevel() { return level; }
+    public void setLevel(Level level) { this.level = level; }
 }

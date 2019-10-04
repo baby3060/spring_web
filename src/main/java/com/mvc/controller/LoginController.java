@@ -19,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +37,7 @@ public class LoginController {
         this.authService = authService;
     };
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String form(LoginCommand command, @CookieValue(value = "REMEMBER_EMAIL", required = false) Cookie cookie, Model model) {
         if( cookie != null ) {
             command.setEmail(cookie.getValue());
@@ -47,7 +49,7 @@ public class LoginController {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public String submit(@ModelAttribute("command") LoginCommand command, 
                         Errors errors, 
                         Model model, 

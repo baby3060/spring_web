@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.mvc.entity.Level;
 import com.mvc.entity.Member;
 
 /**
@@ -28,6 +29,7 @@ public class MemberMapperMaker {
                 member.setPassword(rs.getString("password"));
                 member.setAllowMail(rs.getString("allow_mail").equals("T"));
                 member.setLoginType(rs.getString("login_type"));
+                member.setLevel(Level.valueOf(rs.getInt("user_level")));
 
                 return member;
             }

@@ -37,9 +37,10 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
         param.addValue("password", member.getPassword());
         param.addValue("login_type", member.getLoginType());
         param.addValue("allow_mail", member.getAllowMail()?"T":"F");
+        param.addValue("level", member.getLevel().getValue());
 
         return this.getNamedParameterJdbcTemplate()
-                   .update("Insert Into TBMEMBER(email, name, password, login_type, allow_mail) Values (:email, :name, :password, :login_type, :allow_mail)", param);
+                   .update("Insert Into TBMEMBER(email, name, password, login_type, allow_mail, user_level) Values (:email, :name, :password, :login_type, :allow_mail, :level)", param);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
 
         param.addValue("email", email);
 
-        return this.getNamedParameterJdbcTemplate().queryForObject("Select email, name, password, login_type, allow_mail From TBMEMBER Where email = :email", param, simpleMapper);
+        return this.getNamedParameterJdbcTemplate().queryForObject("Select email, name, password, login_type, allow_mail, user_level From TBMEMBER Where email = :email", param, simpleMapper);
     }
 
     @Override

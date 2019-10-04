@@ -2,10 +2,10 @@ package com.mvc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -17,7 +17,8 @@ import com.mvc.entity.*;
 @Controller
 @RequestMapping("/survey")
 public class SurveyController {
-    @RequestMapping(method = RequestMethod.GET)
+
+    @GetMapping
     public ModelAndView form(Model model) {
         AnsweredData ansData = new AnsweredData();
         Respondent res = new Respondent();
@@ -38,7 +39,7 @@ public class SurveyController {
         return new ArrayList<Question>(Arrays.asList(q1, q2, q3));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public String submit(@ModelAttribute("ansData") AnsweredData ansData) {
         return "survey/report";
     }

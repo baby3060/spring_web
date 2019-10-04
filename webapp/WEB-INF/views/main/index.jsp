@@ -20,6 +20,7 @@
         <p><a href="<c:url value='/survey' />">설문조사 화면으로 이동</a></p>
         <p><a href="<c:url value='/logout' />">로그아웃</a></p>
         <p><a href="<c:url value='/member/changepwd' />">비밀번호 변경하러 가기</a></p>
+        <p><a href="<c:url value='/member/list' />">회원목록 확인하기</a></p>
     </c:if>
 </body>
 </html>

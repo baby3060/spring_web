@@ -12,7 +12,7 @@
     <form:form id="updateForm" modelAttribute="changeCommand">
         <p>
             <label>
-                현재 비밀번호 : <br />
+                기존 비밀번호 : <br />
                 <form:input path="currentPassword" />
                 <form:errors path="currentPassword" />
             </label>
@@ -24,7 +24,15 @@
                 <form:errors path="newPassword" />
             </label>
         </p>
+        
+        <p>
+            <a href="<c:url value='/main' />">
+                메인으로
+            </a>
+        </p>
+        
         <input type="submit" value="비밀번호 수정" />
+
     </form:form>
 </body>
 </html>

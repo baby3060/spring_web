@@ -13,7 +13,7 @@
 <body>
     <h2><spring:message code="term" /></h2>
     <p><spring:message code="term.content" /></p>
-    <form action="step2" method="post">
+    <form action="step2">
         <label>
             <input type="checkbox" name="agree" value="true"> <spring:message code="term.agree" />
         </label>

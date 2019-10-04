@@ -57,12 +57,16 @@
     </mvc:view-resolvers>
     
     <bean id="loginInterceptor" class="com.mvc.controller.interceptor.LoginCheckInterceptor" />
+    <bean id="levelInterceptor" class="com.mvc.controller.interceptor.MemberLevelInterceptor" />
 
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/member/**" />
             <ref bean="loginInterceptor" />
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/member/detail/**" />
+            <ref bean="levelInterceptor" />
+        </mvc:interceptor>
     </mvc:interceptors>
-
 </beans>

@@ -3,6 +3,7 @@ import java.util.*;
 
 import javax.sql.DataSource;
 
+import com.mvc.entity.Level;
 import com.mvc.entity.Member;
 import com.mvc.repository.MemberRepository;
 
@@ -45,7 +46,7 @@ public class MemberRepositoryTest {
 
         assertThat(count, is(0L));
 
-        Member member = new Member("Test", "1234@fi.com", "123456", "1", true);
+        Member member = new Member("Test", "1234@fi.com", "123456", "1", true, Level.BRONZE);
 
         int result = memberRepository.regist(member);
 

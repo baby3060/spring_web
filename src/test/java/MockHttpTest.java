@@ -34,7 +34,7 @@ public class MockHttpTest {
             servlet.setRelativeLocations(getClass(), "test-spring-servlet.xml");
             servlet.init(new MockServletConfig("test-spring"));
             
-            String reqName = "Bell";
+            String reqName = "Guest";
 
             MockHttpServletRequest req = new MockHttpServletRequest("GET", "/main");
             req.addParameter("name", reqName);

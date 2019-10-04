@@ -1,5 +1,6 @@
 package com.mvc.service.impl;
 
+import com.mvc.entity.Level;
 import com.mvc.entity.Member;
 import com.mvc.repository.MemberRepository;
 import com.mvc.service.MemberService;
@@ -16,6 +17,10 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     public int regist(Member member) {
+        if( member.getLevel() == null ) {
+            member.setLevel(Level.BRONZE);
+        }
+
         return memberRepository.regist(member);
     }
 
@@ -29,5 +34,9 @@ public class MemberServiceImpl implements MemberService {
 
     public void updatePassword(Member member, String newPassword) {
         memberRepository.updatePasswd(member, newPassword);
+    }
+
+    public void accesssTest(Member member) throws RuntimeException {
+        
     }
 }

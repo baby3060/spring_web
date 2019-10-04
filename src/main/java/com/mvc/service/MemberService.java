@@ -7,4 +7,5 @@ public interface MemberService {
     int count(String email);
     Member selectMember(String email);
     void updatePassword(Member member, String newPassword);
+    void accesssTest(Member member) throws RuntimeException;
 }
