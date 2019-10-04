@@ -1,7 +1,8 @@
 package com.mvc.repository.mappers;
 
 
-
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -30,6 +31,7 @@ public class MemberMapperMaker {
                 member.setAllowMail(rs.getString("allow_mail").equals("T"));
                 member.setLoginType(rs.getString("login_type"));
                 member.setLevel(Level.valueOf(rs.getInt("user_level")));
+                member.setRegistDate(rs.getTimestamp("regist_date").toLocalDateTime());
 
                 return member;
             }

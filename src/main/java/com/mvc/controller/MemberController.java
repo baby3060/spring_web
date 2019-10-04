@@ -41,10 +41,9 @@ public class MemberController {
             searchCommand.setSearch("N");
         }
 
+        // 호출할 때 마다 메소드 실행 시 디비에 너무 많이 접근
         if( searchCommand.getSearch().equalsIgnoreCase("Y")) {
-            if( searchCommand.getFrom() != null && searchCommand.getTo() != null ) {
-                
-            }
+            memberList = memberService.getListBasic(searchCommand.getFrom(), searchCommand.getTo());
         }
 
         model.addAttribute("memberList", memberList);

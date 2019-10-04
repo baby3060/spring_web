@@ -49,6 +49,7 @@ public class MemberLevelInterceptor extends HandlerInterceptorAdapter {
         if( result ) {
             return true;
         } else {
+            response.sendRedirect(request.getContextPath() + "/main");
             return false;
         }
     }

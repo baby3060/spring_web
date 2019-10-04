@@ -1,5 +1,7 @@
 package com.mvc.entity;
 
+import java.time.LocalDateTime;
+
 import lombok.*;
 
 @EqualsAndHashCode
@@ -11,6 +13,7 @@ public class Member {
     private String loginType = "1";
     private String[] favoriteFoods;
     private boolean allowMail = true;
+    private LocalDateTime registDate;
 
     private Level level;
 
@@ -31,6 +34,19 @@ public class Member {
         this(name, email, password, loginType, allowMail);
         this.level = level;
     }
+
+    public Member(String name, String email, String password, String loginType, boolean allowMail, Level level, LocalDateTime registDate) {
+        this(name, email, password, loginType, allowMail, level);
+        this.registDate = registDate;
+    }
+    public LocalDateTime getRegistDate() {
+        return registDate;
+    }
+
+    public void setRegistDate(LocalDateTime registDate) {
+        this.registDate = registDate;
+    }
+
 
     public String toString() {
         String favoStr = "";

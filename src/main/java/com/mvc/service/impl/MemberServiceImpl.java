@@ -1,5 +1,8 @@
 package com.mvc.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.*;
+
 import com.mvc.entity.Level;
 import com.mvc.entity.Member;
 import com.mvc.repository.MemberRepository;
@@ -34,6 +37,18 @@ public class MemberServiceImpl implements MemberService {
 
     public void updatePassword(Member member, String newPassword) {
         memberRepository.updatePasswd(member, newPassword);
+    }
+
+    public List<Member> getListBasic(LocalDateTime from, LocalDateTime to) {
+        List<Member> memberList = new ArrayList<Member>();
+
+        if( from != null && to != null ) {
+            memberList = memberRepository.listFromTo(from, to);
+        } else {
+            memberList = memberRepository.listBasic();
+        }
+
+        return memberList;
     }
 
     public void accesssTest(Member member) throws RuntimeException {

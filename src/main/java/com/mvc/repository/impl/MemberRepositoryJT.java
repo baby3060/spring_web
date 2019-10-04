@@ -1,5 +1,11 @@
 package com.mvc.repository.impl;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import com.mvc.entity.Member;
@@ -38,9 +44,10 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
         param.addValue("login_type", member.getLoginType());
         param.addValue("allow_mail", member.getAllowMail()?"T":"F");
         param.addValue("level", member.getLevel().getValue());
+        param.addValue("registDate", Timestamp.valueOf(LocalDateTime.now()));
 
         return this.getNamedParameterJdbcTemplate()
-                   .update("Insert Into TBMEMBER(email, name, password, login_type, allow_mail, user_level) Values (:email, :name, :password, :login_type, :allow_mail, :level)", param);
+                   .update("Insert Into TBMEMBER(email, name, password, login_type, allow_mail, user_level, regist_date) Values (:email, :name, :password, :login_type, :allow_mail, :level, :registDate)", param);
     }
 
     @Override
@@ -49,7 +56,7 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
 
         param.addValue("email", email);
 
-        return this.getNamedParameterJdbcTemplate().queryForObject("Select email, name, password, login_type, allow_mail, user_level From TBMEMBER Where email = :email", param, simpleMapper);
+        return this.getNamedParameterJdbcTemplate().queryForObject("Select email, name, password, login_type, allow_mail, user_level, regist_date From TBMEMBER Where email = :email", param, simpleMapper);
     }
 
     @Override
@@ -70,5 +77,30 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
         param.addValue("email", member.getEmail());
 
         this.getNamedParameterJdbcTemplate().update("Update TBMEMBER Set password = :newPasswd Where email = :email", param);
+    }
+
+    @Override
+    public List<Member> listBasic() {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+
+        List<Member> memberList = new ArrayList<Member>();
+
+        memberList = this.getNamedParameterJdbcTemplate().query("Select * From TBMEMBER Order By email", param, this.simpleMapper);
+
+        return memberList;
+    }
+
+    @Override
+    public List<Member> listFromTo(LocalDateTime from, LocalDateTime to) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+
+        List<Member> memberList = new ArrayList<Member>();
+
+        param.addValue("from", from.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+        param.addValue("to", to.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+
+        memberList = this.getNamedParameterJdbcTemplate().query("Select * From TBMEMBER Where Date_Format(regist_date, '%Y%m%d') Between :from And :to Order By regist_date", param, this.simpleMapper);
+
+        return memberList;
     }
 }
