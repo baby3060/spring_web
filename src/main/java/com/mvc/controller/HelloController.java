@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HelloController {
-    @GetMapping("/main")
+    @GetMapping("/main.do")
     public String hello(Model model, @RequestParam(value="name", required = false) String name) {
 
         model.addAttribute("greeting", "Hello~Guest!!!!");

@@ -36,7 +36,7 @@ public class MockHttpTest {
             
             String reqName = "Guest";
 
-            MockHttpServletRequest req = new MockHttpServletRequest("GET", "/main");
+            MockHttpServletRequest req = new MockHttpServletRequest("GET", "/main.do");
             req.addParameter("name", reqName);
 
             MockHttpServletResponse res = new MockHttpServletResponse();

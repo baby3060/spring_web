@@ -23,4 +23,13 @@
         <p><a href="<c:url value='/member/list' />">회원목록 확인하기</a></p>
     </c:if>
 </body>
+
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+    wcs_add["wa"] = "4c0eae3ab8fd3";
+    if(window.wcs) {
+        wcs_do();
+}
+</script>
 </html>
