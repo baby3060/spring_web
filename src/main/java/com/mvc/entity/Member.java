@@ -6,6 +6,7 @@ import lombok.*;
 
 @EqualsAndHashCode
 public class Member {
+    private int memberSeq;
     private String name;
     private String email;
     private String password;
@@ -66,7 +67,7 @@ public class Member {
                 } else {
                     Member temp = (Member) obj;
 
-                    return this.name.equals(temp.getName()) && this.email.equals(temp.getEmail()) && this.password.equals(temp.getPassword()) && this.loginType.equals(temp.getLoginType());
+                    return (this.memberSeq == temp.getMemberSeq()) &&  this.name.equals(temp.getName()) && this.email.equals(temp.getEmail()) && this.password.equals(temp.getPassword()) && this.loginType.equals(temp.getLoginType());
                 }
             } else {
                 return false;
@@ -76,12 +77,16 @@ public class Member {
 
     public int hashCode() {
         int result = 31;
+        result += this.memberSeq;
         result += this.name.hashCode();
         result += this.email.hashCode();
         result += this.password.hashCode();
         result += this.loginType.hashCode();
         return result;
     }
+
+    public int getMemberSeq() { return this.memberSeq;}
+    public void setMemberSeq(int memberSeq) { this.memberSeq = memberSeq; }
 
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }

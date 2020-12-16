@@ -7,8 +7,8 @@ import com.mvc.entity.Member;
 
 public interface MemberService {
     int regist(Member member);
-    int count(String email);
-    Member selectMember(String email);
+    int count(int memberSeq);
+    Member selectMember(int memberSeq);
     void updatePassword(Member member, String newPassword);
     void accesssTest(Member member) throws RuntimeException;
     List<Member> getListBasic(LocalDateTime from, LocalDateTime to);

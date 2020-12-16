@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.mvc.entity.Member;
 import com.mvc.repository.MemberRepository;
+import com.mvc.command.model.BoardSearchVO;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 @RequestMapping("/ajax")
@@ -27,11 +29,8 @@ public class AjaxController {
 
     @RequestMapping(value="/get_list", method=RequestMethod.POST)
     @ResponseBody
-    public String ajaxCall(@RequestParam("start") int start, 
-    						@RequestBody MultiValueMap<String, String> formData) {
+    public String ajaxCall(@ModelAttribute("search") BoardSearchVO search ) {
         Gson gson = new Gson();
-        
-        System.out.println(formData.toString());
         
         Map<String,Object> dataMaps = new HashMap<String,Object>();
         
@@ -42,5 +41,12 @@ public class AjaxController {
         dataMaps.put("recordsFiltered", countAll);
 
         return gson.toJson(dataMaps);
+    }
+
+    @RequestMapping(value="/data_ajax", method=RequestMethod.POST)
+    @ResponseBody
+    public void dataAjax(@RequestParam(value="seqChk", required=false) List<String> values) {
+        System.out.println(values.size());
+
     }
 }

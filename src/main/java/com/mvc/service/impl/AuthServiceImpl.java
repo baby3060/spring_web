@@ -21,11 +21,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserInfo authenticate(String email, String password) {
+    public UserInfo authenticate(int memberSeq, String password) {
         Member member = null;
 
-        if(memberService.count(email) == 1) {
-            member = memberService.selectMember(email);
+        if(memberService.count(memberSeq) == 1) {
+            member = memberService.selectMember(memberSeq);
         }
 
         if( member == null ) {

@@ -23,6 +23,7 @@ public class MemberMapperMaker {
                 Member member = new Member();
                 
                 member.setName(rs.getString("name"));
+                member.setMemberSeq(rs.getInt("member_seq"));
                 member.setEmail(rs.getString("email"));
                 member.setPassword(rs.getString("password"));
                 member.setAllowMail(rs.getString("allow_mail").equals("T"));

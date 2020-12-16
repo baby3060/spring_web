@@ -6,9 +6,9 @@ import java.util.List;
 import com.mvc.entity.Member;
 
 public interface MemberRepository {
-    int count(String email);
+    int count(int memberSeq);
     int regist(Member member);
-    Member selectMember(String email);
+    Member selectMember(int memberSeq);
     void deleteAll();
     long countAll();
     void updatePasswd(Member member, String newPasswd);

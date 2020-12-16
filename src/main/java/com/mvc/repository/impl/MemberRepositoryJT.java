@@ -23,13 +23,13 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
     private RowMapper<Member> simpleMapper;
 
     @Override
-    public int count(String email) {
+    public int count(int memberSeq) {
         MapSqlParameterSource param = new MapSqlParameterSource();
 
-        param.addValue("email", email);
+        param.addValue("memberSeq", memberSeq);
 
         return this.getNamedParameterJdbcTemplate()
-                   .queryForObject("Select Count(*) As cnt From TBMEMBER Where email = :email"
+                   .queryForObject("Select Count(*) As cnt From TBMEMBER Where memberSeq = :memberSeq"
                                   , param
                                   , Integer.class);
     }
@@ -37,7 +37,7 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
     @Override
     public int regist(Member member) {
         MapSqlParameterSource param = new MapSqlParameterSource();
-
+        
         param.addValue("email", member.getEmail());
         param.addValue("name", member.getName());
         param.addValue("password", member.getPassword());
@@ -51,12 +51,12 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
     }
 
     @Override
-    public Member selectMember(String email) {
+    public Member selectMember(int memberSeq) {
         MapSqlParameterSource param = new MapSqlParameterSource();
 
-        param.addValue("email", email);
+        param.addValue("memberSeq", memberSeq);
 
-        return this.getNamedParameterJdbcTemplate().queryForObject("Select email, name, password, login_type, allow_mail, user_level, regist_date From TBMEMBER Where email = :email", param, simpleMapper);
+        return this.getNamedParameterJdbcTemplate().queryForObject("Select member_seq, email, name, password, login_type, allow_mail, user_level, regist_date From TBMEMBER Where memberSeq = :memberSeq", param, simpleMapper);
     }
 
     @Override
@@ -74,9 +74,9 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
         MapSqlParameterSource param = new MapSqlParameterSource();
 
         param.addValue("newPasswd", newPasswd);
-        param.addValue("email", member.getEmail());
+        param.addValue("memberSeq", member.getMemberSeq());
 
-        this.getNamedParameterJdbcTemplate().update("Update TBMEMBER Set password = :newPasswd Where email = :email", param);
+        this.getNamedParameterJdbcTemplate().update("Update TBMEMBER Set password = :newPasswd Where memberSeq = :memberSeq", param);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
 
         List<Member> memberList = new ArrayList<Member>();
 
-        memberList = this.getNamedParameterJdbcTemplate().query("Select * From TBMEMBER Order By email", param, this.simpleMapper);
+        memberList = this.getNamedParameterJdbcTemplate().query("Select * From TBMEMBER Order By member_seq", param, this.simpleMapper);
 
         return memberList;
     }

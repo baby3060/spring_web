@@ -27,12 +27,12 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.regist(member);
     }
 
-    public int count(String email) {
-        return memberRepository.count(email);
+    public int count(int memberSeq) {
+        return memberRepository.count(memberSeq);
     }
 
-    public Member selectMember(String email) {
-        return memberRepository.selectMember(email);
+    public Member selectMember(int memberSeq) {
+        return memberRepository.selectMember(memberSeq);
     }
 
     public void updatePassword(Member member, String newPassword) {
