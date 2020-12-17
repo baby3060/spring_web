@@ -5,12 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
-<link rel="stylesheet" href="//cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.css" />
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
 
 <meta charset="UTF-8">
 <title>보드 리스트</title>
@@ -36,7 +36,6 @@
             
             <thead>
                 <tr>
-                    <th></th>
                     <th>이름</th>
                     <th>이메일</th>
                     <th>레벨</th>
@@ -44,6 +43,15 @@
             </thead>
         </table>
     </form>
+    <script src="https://code.jquery.com/jquery-3.0.0.js" ></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.3.0.js" ></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js" ></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.js" ></script>
+    <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.js" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.js" ></script>
+    <script src="${pageContext.request.contextPath}/resources/js/dataTables.altEditor.free.js"></script>
+
     <script>
         var table;
         $(document).ready(function() {
@@ -56,6 +64,26 @@
                 info : false,
                 ordering : false,
                 searching : false,
+                altEditor : true,
+                dom: 'Bfrtip',
+                responsive: true,
+                select: 'single',
+                buttons: [
+                    {
+                    text: 'Add',
+                    name: 'add'        // do not change name
+                    },
+                    {
+                    extend: 'selected', // Bind to Selected row
+                    text: 'Edit',
+                    name: 'edit'        // do not change name
+                    },
+                    {
+                    extend: 'selected', // Bind to Selected row
+                    text: 'Delete',
+                    name: 'delete'      // do not change name
+                    }
+                ],
                 ajax : {
                     url : '../ajax/get_list',
                     type : 'POST',
@@ -69,28 +97,25 @@
                     }
                 },
                 columns : [
-                    {"data" : "memberSeq", render : function(data, type, row) {
-                         if ( type === 'display' ) {
-                            return '<input type="checkbox" id="seqChk" class="editor-active">';
-                        }
-                        return data;
-                    },  className: "dt-body-center"},
                     {"data" : "name"},
                     {"data" : "email"},
                     {"data" : "level"}
                 ],
-                'columnDefs': [
-                    {
-                        'targets': 0,
-                        'checkboxes': {
-                            'selectRow': true
-                        }
-                    }
-                ],
                 'select': {
-                    'style': 'multi'
+                    'style': 'os'
                 },
-                order: [[ 1, 'asc' ]]
+                order: [[ 0, 'asc' ]],
+                 onAddRow: function(datatable, rowdata, success, error) {
+                    $.ajax({
+                        // a tipycal url would be / with type='PUT'
+                        url: '../ajax/data_ajax',
+                        type: 'POST',
+                        data: rowdata,
+                        success: success,
+                        error: error,
+                        dataType : 'JSON'
+                    });
+                },
              });
         });
 
@@ -98,6 +123,7 @@
             table.ajax.reload();
         });
 
+        /*
         $('#submit').click(function() {
            var form = this;
 
@@ -114,6 +140,9 @@
                 );
             });
         });
+        */
+
+
     </script>
 </body>
 </html>

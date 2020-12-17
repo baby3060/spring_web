@@ -1,6 +1,9 @@
 package com.mvc.controller;
 
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,8 +48,13 @@ public class AjaxController {
 
     @RequestMapping(value="/data_ajax", method=RequestMethod.POST)
     @ResponseBody
-    public void dataAjax(@RequestParam(value="seqChk", required=false) List<String> values) {
-        System.out.println(values.size());
-
+    public Object dataAjax(@RequestParam Map<String, Object> data, HttpServletRequest request) {
+    	Gson gson = new Gson();
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	
+    	System.out.println(data.toString());
+    	result.put("status", "success");
+    	
+    	return gson.toJson(result);
     }
 }
