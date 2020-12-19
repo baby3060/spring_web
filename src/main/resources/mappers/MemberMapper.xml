@@ -6,45 +6,71 @@
 <mapper namespace="memberMapper">
 
     <insert id="insertMember" parameterType="CUDVo">
-        <foreach item="item" index="index" collection="listMap" open="" close="" separator=";">
+        <foreach item="item" index="index" collection="listMap" separator=";">
             Insert Into TBMEMBER 
             (
+                <if test="item.email != null">
                 email, 
-                name, 
+                </if>
+                <if test="item.name != null">
+                name,
+                </if> 
+                <if test="item.password != null">
                 password, 
+                </if>
+                <if test="item.loginType != null">
                 login_type, 
+                </if>
+                <if test="item.allowMail != null">
                 allow_mail, 
+                </if>
+                <if test="item.userLevel != null ">
                 user_level, 
+                </if>
                 regist_date
             ) 
             Values 
             (
-                #{item.email, jdbcType=VARCHAR}, 
+                <if test="item.email != null">
+                #{item.email}, 
+                </if>
+                <if test="item.name != null">
                 #{item.name, jdbcType=VARCHAR}, 
+                </if>
+                <if test="item.password != null">
                 #{item.password, jdbcType=VARCHAR}, 
+                </if>
+                <if test="item.loginType != null">
                 #{item.loginType, jdbcType=VARCHAR}, 
+                </if>
+                <if test="item.allowMail != null">
                 #{item.allowMail, jdbcType=VARCHAR}, 
-                #{item.userLevel, jdbcType=VARCHAR}, 
+                </if>
+                <if test="item.userLevel != null">
+                #{item.userLevel, jdbcType=INTEGER}, 
+                </if>
                 CURDATE()
             )
         </foreach>
     </insert>
 
     <delete id="updateMember" parameterType="CUDVo">
-        <foreach item="item" index="index" collection="listMap" open="" close="" separator=";">
+        <foreach item="item" index="index" collection="listMap" separator=";">
             UPDATE TBMEMBER
-            SET EMAIL = #{item.email, jdbcType=VARCHAR}, 
-                NAME = #{item.name, jdbcType=VARCHAR}, 
-                PASSWORD = #{item.name, jdbcType=VARCHAR}, 
-                LOGIN_TYPE = #{item.loginType, jdbcType=VARCHAR}, 
-                allow_mail = #{item.allowMail, jdbcType=VARCHAR}, 
-                user_level = #{item.userLevel, jdbcType=VARCHAR}
+            <set>
+                <if test="item.email != null">EMAIL = #{item.email},</if>
+                <if test="item.name != null">NAME = #{item.name},</if>
+                <if test="item.password != null">PASSWORD = #{item.password},</if>
+                <if test="item.loginType != null">LOGIN_TYPE = #{item.loginType},</if>
+                <if test="item.allowMail != null">ALLOW_MAIL = #{item.allowMail},</if>
+                <if test="item.userLevel != null">USER_LEVEL = #{item.userLevel}</if>
+            </set>
             WHERE MEMBER_SEQ = #{item.memberSeq}
         </foreach>
     </delete>
 
     <delete id="deleteMember" parameterType="CUDVo">
-        <foreach item="item" index="index" collection="listMap" open="" close="" separator=";">
+        <foreach item="item" index="index" collection="listMap" separator=";">
                 DELETE FROM TBMEMBER WHERE MEMBER_SEQ = #{item.memberSeq}
         </foreach>
     </delete>
