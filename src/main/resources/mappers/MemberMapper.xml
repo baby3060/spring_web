@@ -24,7 +24,7 @@
                 #{item.password, jdbcType=VARCHAR}, 
                 #{item.loginType, jdbcType=VARCHAR}, 
                 #{item.allowMail, jdbcType=VARCHAR}, 
-                #{item.user_level, jdbcType=VARCHAR}, 
+                #{item.userLevel, jdbcType=VARCHAR}, 
                 CURDATE()
             )
         </foreach>
