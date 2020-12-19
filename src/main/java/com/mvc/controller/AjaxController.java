@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,24 @@ public class AjaxController {
     public Object dataAjax(@RequestParam Map<String, Object> data, HttpServletRequest request) {
     	Gson gson = new Gson();
     	Map<String, Object> result = new HashMap<String, Object>();
-    	
-    	System.out.println(data.toString());
+
+        String sqlMap = "";
+        Map<String, Object> params = new HashMap<String, Object>();
+        
+        for(Iterator<Map.Entry<String, Object>> entries = data.entrySet().iterator(); entries.hasNext(); ) {
+        	Map.Entry<String, Object> entry = entries.next();
+        	if( entry.getKey().equals("sqlmap") ) {
+        		sqlMap = entry.getValue().toString();
+        	} else {
+        		params.put( entry.getKey().replace("rowdata[", "").replace("]", ""), entry.getValue());
+        	}
+        }
+        	   
+        System.out.println("sqlMap is " + sqlMap);
+        System.out.println("params is " + params.toString());
+        
     	result.put("status", "success");
-    	
+        
     	return gson.toJson(result);
     }
 }

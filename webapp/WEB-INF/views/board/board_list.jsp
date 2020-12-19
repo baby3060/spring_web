@@ -129,11 +129,11 @@
                     {
                         targets : 3,
                         type : 'radio',
-                        radioCol : [{value : 'BRONZE', label : 'BRONZE', checked : true}, {value : 'SILVER', label : 'SILVER', checked : false}],
+                        radioCol : [{value : '0', label : 'BRONZE', checked : true}, {value : '1', label : 'SILVER', checked : false}],
                         render : function(data, type, row, meta) {
-                            return "<input TYPE='radio' id='input_" + meta.row + "_3_B' name='input_3_" + meta.row + "' value='BRONZE' " + ((data === 'BRONZE')?'checked':'') +" />" +
+                            return "<input TYPE='radio' id='input_" + meta.row + "_3_B' name='input_3_" + meta.row + "' value='0' " + ((data === 'BRONZE')?'checked':'') +" />" +
                                    "<label for='input_" + meta.row + "_3_B'>BRONZE</label>" + 
-                                   "<input TYPE='radio' id='input_" + meta.row + "_3_S' name='input_3_" + meta.row + "' value='SILVER' " + ((data === 'SILVER')?'checked':'') +" />" +
+                                   "<input TYPE='radio' id='input_" + meta.row + "_3_S' name='input_3_" + meta.row + "' value='1' " + ((data === 'SILVER')?'checked':'') +" />" +
                                    "<label for='input_" + meta.row + "_3_S'>SILVER</label>";
                         }
                     }
@@ -146,7 +146,7 @@
                         // a tipycal url would be / with type='PUT'
                         url: '../ajax/data_ajax',
                         type: 'POST',
-                        data: rowdata,
+                        data: { rowdata : rowdata, sqlmap : 'member.insertMap' },
                         success: success,
                         error: error,
                         dataType : 'JSON'
