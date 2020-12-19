@@ -138,15 +138,21 @@
                 order: [[ 0, 'asc' ]],
 
                 onAddRow: function(datatable, rowdata, success, error) {
-                    $.ajax({
-                        // a tipycal url would be / with type='PUT'
-                        url: '../ajax/data_ajax',
-                        type: 'POST',
-                        data: { rowdata : rowdata, sqlmap : 'memberMapper.insertMember', code : 'INSERT' },
-                        success: success,
-                        error: error,
-                        dataType : 'JSON'
-                    });
+                    var flag = true;
+
+                    if( flag ) {
+                        $.ajax({
+                            // a tipycal url would be / with type='PUT'
+                            url: '../ajax/data_ajax',
+                            type: 'POST',
+                            data: { rowdata : rowdata, sqlmap : 'memberMapper.insertMember', code : 'INSERT' },
+                            success: success,
+                            error: error,
+                            dataType : 'JSON'
+                        });
+                    } else {
+                        alert("NO AJAX CALL");
+                    }
                 },
 
                 onDeleteRow: function(datatable, rowdata, success, error) {
@@ -220,22 +226,77 @@
 
         
         $('#submit').click(function() {
+            // 선택 ROW
+            var selectedRowIdx = table.rows( { selected: true } )[0];
+            var selectedRowData = table.rows( { selected: true } ).data();
+            // console.log(selectedRowData);
+            var rowdata = "["; 
+            var $tr;
+            var $childArr;
+            var errRowIdx = -1;
+            var errColIdx;
+            var oriData;
+
+            var columns = table.settings().init().columns;
+
+            // 순서는 DataTable의 columns의 순서와 동일
+            // console.log(columns[0].mData + ", " + columns[1].mData+ ", " + columns[2].mData+ ", " + columns[3].mData);
+
+            for( var i = 0; i < selectedRowIdx.length; i++ ) {
+                // console.log(selectedRowIdx[i]);
+                $tr = $('#table tbody').find('tr:eq(' + selectedRowIdx[i] + ')');
+
+                oriData = selectedRowData[i];
+                
+                $childArr = $tr.children();
+                
+                if($childArr.length > 0) {
+                    var $nameVal = $tr.find('input[name=input_1]').val();
+                    var $emailVal = $tr.find('input[name=input_2]').val();
+                    var $levelVal = $tr.find('input[name^=input_3]:checked').val();
+                    
+                    if( $nameVal === '' ) {
+                        errRowIdx = i;
+                        errColIdx = 1;
+                        break;
+                    }
+
+                    if( $emailVal === '' ) {
+                        errRowIdx = i;
+                        errColIdx = 2;
+                        break;
+                    }
+                    
+                    // Key
+                    rowdata = rowdata + "{\"" + columns[0].mData + "\" : " + oriData[columns[0].mData] + ", ";
+                    // Value
+                    rowdata = rowdata + "\"" + columns[1].mData + "\" : \"" + $nameVal + "\", ";
+                    rowdata = rowdata + "\"" + columns[2].mData + "\" : \"" + $emailVal + "\", ";
+                    rowdata = rowdata + "\"" + columns[3].mData + "\" : " + $levelVal + "},";
+                }
+            }
             
+            rowdata = rowdata.substr(0, rowdata.length - 1);
+            rowdata = rowdata + "]";
+            
+            // console.log(rowdata);
+
             // 이 형식 맞추도록 할 것.
-           // var rowdata = "[{\"memberSeq\" : 1, \"name\" : \"aaa\", \"email\" : \"aaa\", \"level\" : 2}, {\"memberSeq\" : 2, \"name\" : \"bbb\", \"email\" : \"bbb\", \"level\" : 1}]";
-           $.ajax({
-               url: '../ajax/data_ajax',
-               type: 'POST',
-               data: {rowdata : rowdata, sqlmap : "memberMapper.updateMember", code : "UPDATE"},
-               success: function() {
-                   table.ajax.reload();
-               },
-               error: function () {
-                   console.log("error");
-               },
-               dataType : 'JSON'
-           });
-           
+            // var rowdata = "[{\"memberSeq\" : 1, \"name\" : \"aaa\", \"email\" : \"aaa\", \"level\" : 2}, {\"memberSeq\" : 2, \"name\" : \"bbb\", \"email\" : \"bbb\", \"level\" : 1}]";
+            if(errRowIdx < 0) {
+                $.ajax({
+                    url: '../ajax/data_ajax',
+                    type: 'POST',
+                    data: {rowdata : rowdata, sqlmap : "memberMapper.updateMember", code : "UPDATE"},
+                    success: function() {
+                        table.ajax.reload();
+                    },
+                    error: function () {
+                        console.log("error");
+                    },
+                    dataType : 'JSON'
+                });
+            }
         });
         
         // text type check
