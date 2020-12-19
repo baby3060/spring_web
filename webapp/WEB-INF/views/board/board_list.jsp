@@ -36,6 +36,7 @@
             
             <thead>
                 <tr>
+                    <th>선택</th>
                     <th>이름</th>
                     <th>이메일</th>
                     <th>레벨</th>
@@ -79,7 +80,7 @@
                     name: 'edit'        // do not change name
                     },
                     {
-                    extend: 'selected', // Bind to Selected row
+                    extend: 'selectedSingle', // Bind to Selected row
                     text: 'Delete',
                     name: 'delete'      // do not change name
                     }
@@ -97,13 +98,41 @@
                     }
                 },
                 columns : [
+                    {"data" : "memberSeq"},
                     {"data" : "name"},
                     {"data" : "email"},
                     {"data" : "level"}
                 ],
-                'select': {
-                    'style': 'os'
-                },
+                columnDefs : [
+                    {
+                        targets : 0,
+                        render : function(data, type, row, meta) {
+                            return "<input type='checkbox' name='input_0' /><input type='hidden' name='memberSeq' value='" + data + "'/>";
+                        }
+                    },
+                    {
+                        targets : 1,
+                        render : function(data, type, row, meta) {
+                            return "<input type='text' name='input_1' onkeyup='dataChange(this)' value='" + data + "' />" ;
+                        }
+                    },
+                    {
+                        targets : 2,
+                        render : function(data, type, row, meta) {
+                            return "<input type='text' name='input_2' onkeyup='dataChange(this)' value='" + data + "' />" ;
+                        }
+                    },
+                    {
+                        targets : 3,
+                        render : function(data, type, row, meta) {
+                            return "<input TYPE='radio' id='input_" + meta.row + "_3_B' name='input_3_" + meta.row + "' value='BRONZE' " + ((data === 'BRONZE')?'checked':'') +" />" +
+                                   "<label for='input_" + meta.row + "_3_B'>BRONZE</label>" + 
+                                   "<input TYPE='radio' id='input_" + meta.row + "_3_S' name='input_3_" + meta.row + "' value='SILVER' " + ((data === 'SILVER')?'checked':'') +" />" +
+                                   "<label for='input_" + meta.row + "_3_S'>SILVER</label>";
+                        }
+                    }
+                ],
+                'select': 'multi',
                 order: [[ 0, 'asc' ]],
                  onAddRow: function(datatable, rowdata, success, error) {
                     $.ajax({
@@ -117,6 +146,57 @@
                     });
                 },
              });
+
+
+            table.on('user-select',  function( e, dt, type, cell, originalEvent ) {
+                var row = dt.row( cell.index().row ).node();
+                var $curTarget = $(originalEvent.target);
+                
+                var tagName = $curTarget[0].nodeName.toLowerCase();
+                var flag = true;
+
+                // TD 눌렀을 경우 선택 안 함.
+                if( tagName === 'td' || tagName === 'label' ) {
+                    e.preventDefault();
+                    flag = false;
+                } else if( tagName === 'input' ) {
+                    var type = $curTarget[0].type.toLowerCase();
+                    // text의 경우 값 변경 시 호출할 생각
+                    if( type === 'text' ) {
+                        e.preventDefault();
+                        flag = false;
+                    } else if(type === 'radio') {
+                        // 현재 row가 selected일 경우
+                        if ( $(row).hasClass('selected') ) {
+                            e.preventDefault();
+                            flag = false;
+                        // 현재 row가 selected가 아닐 경우
+                        } else {
+                            // 다른 값을 선택한다면,
+                            var $curData = $curTarget.val();
+                            var $originalData = table.cell({row : cell.index().row, column : cell.index().column }).data();
+
+                            if($curData == $originalData) {
+                                e.preventDefault();
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+
+                if(flag) {
+                     // Checkbox 체크용
+                    var chk = $(row).children('td:first-child').find('input[type=checkbox]');
+
+                    if ( $(row).hasClass('selected') ) {
+                        chk.prop('checked', false);
+                    } else {
+                        chk.prop('checked', true);
+                    }
+                }
+               
+            });
+
         });
 
         $('#search').click(function() {
@@ -141,6 +221,25 @@
             });
         });
         */
+
+        // text type check
+        function dataChange(obj) {
+            var $tr = $(obj).closest('tr');
+            var $row_index = $tr.index();
+            var $td = $(obj).closest('td');
+            var $col_index = $td.index();
+            var cur_value = obj.value;
+            // datatable 저장 값
+            var $original_value = table.cell({row : $row_index, column : $col_index }).data();
+            
+            // 유형까지 비교하면 피곤함.
+            if(cur_value != $original_value) {
+                table.rows($row_index).select();
+                var chk = $tr.children('td:first-child').find('input[type=checkbox]');
+                chk.prop('checked', true);
+            }
+        }
+
 
 
     </script>
