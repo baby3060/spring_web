@@ -519,8 +519,14 @@
                             dt.context[0].aoColumns[i].idx;
                     jsonDataArray[name] = adata.data()[0][name];
                 }
+                
+                // 형식 맞추기 위해 똑같이 JSON String으로
+                var jsonString = JSON.stringify(jsonDataArray);
+
+                console.log(jsonString);
+
                 that.onDeleteRow(that,
-                    jsonDataArray,
+                    jsonString,
                     function(data){ that._deleteRowCallback(data); },
                     function(data){ that._errorCallback(data);
                 });
@@ -819,12 +825,15 @@
                     rowDataArray[$(this).data('special')] = $(this).val();
                 });
 
-                console.log(rowDataArray); //DEBUG
+                // 형식 맞추기 위해 똑같이 JSON String으로
+                var jsonString = JSON.stringify(rowDataArray);
+                
+                console.log(jsonString);
 
                 var checkFilesQueued = function() {
                     if (numFilesQueued == 0) {
                         that.onAddRow(that,
-                            rowDataArray,
+                            jsonString,
                             function(data){ that._addRowCallback(data); },
                             function(data){ that._errorCallback(data);
                         });
@@ -845,6 +854,8 @@
                     var selector = this.modal_selector;
                     $(selector + ' .modal-body .alert').remove();
 
+                    var rowDataArray = {};
+
                     if (this.closeModalOnSuccess) {
                         this.internalCloseDialog(selector);
                     } else {
@@ -853,12 +864,13 @@
                             '</div>';
                         $(selector + ' .modal-body').append(message);
                     }
-
+                    
                     this.s.dt.row({
                         selected : true
                     }).remove();
-                    this.s.dt.draw('page');
 
+                    this.s.dt.draw('page');
+                    
                     // Disabling submit button
                     $("div"+selector).find("button#addRowBtn").prop('disabled', true);
                     $("div"+selector).find("button#editRowBtn").prop('disabled', true);

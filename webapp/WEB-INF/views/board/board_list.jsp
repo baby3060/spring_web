@@ -18,7 +18,7 @@
 <body>
     <form id="form1" action="../ajax/get_list">
         <input type="button" id="search" value="조회" />
-        <input type="button" id="submit" value="제출" />
+        <input type="button" id="submit" value="수정" />
         <select id="level" name="level">
             <option value="">전체</option>
             <option value="0">BRONZE</option>
@@ -32,6 +32,7 @@
             <option value="name">NAME</option>
         </select>
         <input type="text" name="searchText" id="searchText" value="${search.searchText}" />
+
         <table id="table" class="display" style='width : 100%'>
             
             <thead>
@@ -77,11 +78,6 @@
                     name: 'add'        // do not change name
                     },
                     {
-                    extend: 'selected', // Bind to Selected row
-                    text: 'Edit',
-                    name: 'edit'        // do not change name
-                    },
-                    {
                     extend: 'selectedSingle', // Bind to Selected row
                     text: 'Delete',
                     name: 'delete'      // do not change name
@@ -104,7 +100,7 @@
                     {"data" : "memberSeq", "type" : "hidden"},
                     {"data" : "name"},
                     {"data" : "email"},
-                    {"data" : "level", "special" : "level"}
+                    {"data" : "userLevel", "special" : "user_level"}
                 ],
                 columnDefs : [
                     {
@@ -146,12 +142,24 @@
                         // a tipycal url would be / with type='PUT'
                         url: '../ajax/data_ajax',
                         type: 'POST',
-                        data: { rowdata : rowdata, sqlmap : 'member.insertMap' },
+                        data: { rowdata : rowdata, sqlmap : 'memberMapper.insertMember', code : 'INSERT' },
                         success: success,
                         error: error,
                         dataType : 'JSON'
                     });
                 },
+
+                onDeleteRow: function(datatable, rowdata, success, error) {
+                    $.ajax({
+                        // a tipycal url would be / with type='PUT'
+                        url: '../ajax/data_ajax',
+                        type: 'POST',
+                        data: { rowdata : rowdata, sqlmap : 'memberMapper.deleteMember', code : 'DELETE' },
+                        success: success,
+                        error: error,
+                        dataType : 'JSON'
+                    });
+                }
              });
 
 
@@ -210,25 +218,26 @@
             table.ajax.reload();
         });
 
-        /*
+        
         $('#submit').click(function() {
-           var form = this;
-
-            var rows_selected = table.column(0).checkboxes.selected();
-
-            // Iterate over all selected checkboxes
-            $.each(rows_selected, function(index, rowId){
-                // Create a hidden element
-                $(form).append(
-                    $('<input>')
-                        .attr('type', 'hidden')
-                        .attr('name', 'id[]')
-                        .val(rowId)
-                );
-            });
+            
+            // 이 형식 맞추도록 할 것.
+           // var rowdata = "[{\"memberSeq\" : 1, \"name\" : \"aaa\", \"email\" : \"aaa\", \"level\" : 2}, {\"memberSeq\" : 2, \"name\" : \"bbb\", \"email\" : \"bbb\", \"level\" : 1}]";
+           $.ajax({
+               url: '../ajax/data_ajax',
+               type: 'POST',
+               data: {rowdata : rowdata, sqlmap : "memberMapper.updateMember", code : "UPDATE"},
+               success: function() {
+                   table.ajax.reload();
+               },
+               error: function () {
+                   console.log("error");
+               },
+               dataType : 'JSON'
+           });
+           
         });
-        */
-
+        
         // text type check
         function dataChange(obj) {
             var $tr = $(obj).closest('tr');
