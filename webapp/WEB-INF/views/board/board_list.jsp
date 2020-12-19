@@ -104,7 +104,7 @@
                     {"data" : "memberSeq", "type" : "hidden"},
                     {"data" : "name"},
                     {"data" : "email"},
-                    {"data" : "level"}
+                    {"data" : "level", "special" : "level"}
                 ],
                 columnDefs : [
                     {
@@ -140,7 +140,8 @@
                 ],
                 'select': 'multi',
                 order: [[ 0, 'asc' ]],
-                 onAddRow: function(datatable, rowdata, success, error) {
+
+                onAddRow: function(datatable, rowdata, success, error) {
                     $.ajax({
                         // a tipycal url would be / with type='PUT'
                         url: '../ajax/data_ajax',

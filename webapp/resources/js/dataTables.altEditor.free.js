@@ -780,9 +780,15 @@
                 var dt = this.s.dt;
 
                 var rowDataArray = {};
-
+                
+                /*
                 // Getting the inputs from the modal
                 $('form[name="altEditor-add-form-' + this.random_id + '"] *').filter(':input[type!="file"]').each(function (i) {
+                    rowDataArray[$(this).attr('id')] = $(this).val();
+                });
+                */
+
+               $('form[name="altEditor-add-form-' + this.random_id + '"] *').filter(':input[type="text"]').each(function (i) {
                     rowDataArray[$(this).attr('id')] = $(this).val();
                 });
 
@@ -806,6 +812,11 @@
                 // Getting the checkbox from the modal
                 $('form[name="altEditor-add-form-' + this.random_id + '"] *').filter(':input[type="checkbox"]').each(function (i) {
                     rowDataArray[$(this).attr('id')] = this.checked;
+                });
+
+                // Getting the checkbox from the modal
+                $('form[name="altEditor-add-form-' + this.random_id + '"] *').filter(':input[type="radio"]').each(function (i) {
+                    rowDataArray[$(this).data('special')] = $(this).val();
                 });
 
                 console.log(rowDataArray); //DEBUG
