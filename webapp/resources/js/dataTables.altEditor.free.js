@@ -562,6 +562,7 @@
                         required: (obj.required ? obj.required : false),
                         msg: (obj.errorMsg ? obj.errorMsg : ''),        // FIXME no more used
                         hoverMsg: (obj.hoverMsg ? obj.hoverMsg : ''),
+                        radioCol : (obj.radioCol ? obj.radioCol : [] ),
                         pattern: (obj.pattern ? obj.pattern : '.*'),
                         special: (obj.special ? obj.special : ''),
                         unique: (obj.unique ? obj.unique : false),
@@ -588,7 +589,6 @@
                 formName = [formName, this.random_id].join('-');
                 var data = "";
                 for (var j in columnDefs) {
-
                     //handle hidden fields
                     if (columnDefs[j].type.indexOf("hidden") >= 0) {
                         data += "<input type='hidden' id='" + columnDefs[j].name + "' ></input>";
@@ -663,6 +663,32 @@
                                 + (columnDefs[j].maxLength == false ? "" : " maxlength='" + columnDefs[j].maxLength + "'")
                                 + " style='" + this._quoteattr(columnDefs[j].style) + "'>"
                                 + "</textarea>";
+                        }
+                        else if( columnDefs[j].type.indexOf("radio") >= 0 ) {
+                            // Radio일 경우 갯수가 필요함.
+                            if(columnDefs[j].radioCol.length > 0) {
+                                var radioCol = columnDefs[j].radioCol;
+                                for( var i = 0; i < radioCol.length; i++ ) {
+                                    data += "<input class='form-check-input' type='" + this._quoteattr(columnDefs[j].type)
+                                        + "' id='" + this._quoteattr(columnDefs[j].name) + i
+                                        + "' pattern='" + this._quoteattr(columnDefs[j].pattern)
+                                        + "' title='" + this._quoteattr(columnDefs[j].hoverMsg)
+                                        + "' name='" + this._quoteattr(columnDefs[j].title)
+                                        + "' placeholder='" + this._quoteattr(columnDefs[j].title)
+                                        + "' data-special='" + this._quoteattr(columnDefs[j].special)
+                                        + "' data-errorMsg='" + this._quoteattr(columnDefs[j].msg)
+                                        + "' data-uniqueMsg='" + this._quoteattr(columnDefs[j].uniqueMsg)
+                                        + "' data-unique='" + columnDefs[j].unique
+                                        + "' "
+                                        + (columnDefs[j].readonly ? ' readonly ' : '')
+                                        + (columnDefs[j].disabled ? ' disabled ' : '')
+                                        + (columnDefs[j].required ? ' required ' : '')
+                                        + (columnDefs[j].maxLength == false ? "" : " maxlength='" + columnDefs[j].maxLength + "'")
+                                        + " style='overflow:hidden;" + this._quoteattr(columnDefs[j].style)
+                                        + "' value='" + radioCol[i].value + "' " + (radioCol[i].checked?'checked':'') + " />"
+                                        + "<label class='form-check-label' for='" +this._quoteattr(columnDefs[j].name) + i + "'>" + radioCol[i].label + "</label>"
+                                }
+                            }
                         }
                         // Adding text-inputs and errorlabels, but also new HTML5 typees (email, color, ...)
                         else {

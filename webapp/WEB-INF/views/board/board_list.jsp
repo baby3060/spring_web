@@ -54,6 +54,8 @@
     <script src="${pageContext.request.contextPath}/resources/js/dataTables.altEditor.free.js"></script>
 
     <script>
+
+
         var table;
         $(document).ready(function() {
             $('#level').val('${search.level}');
@@ -98,7 +100,8 @@
                     }
                 },
                 columns : [
-                    {"data" : "memberSeq"},
+                    // columnDefs가 안 먹힐 경우 columns에서 수정해 볼 것.
+                    {"data" : "memberSeq", "type" : "hidden"},
                     {"data" : "name"},
                     {"data" : "email"},
                     {"data" : "level"}
@@ -106,6 +109,7 @@
                 columnDefs : [
                     {
                         targets : 0,
+                        type : 'hidden',
                         render : function(data, type, row, meta) {
                             return "<input type='checkbox' name='input_0' /><input type='hidden' name='memberSeq' value='" + data + "'/>";
                         }
@@ -124,6 +128,8 @@
                     },
                     {
                         targets : 3,
+                        type : 'radio',
+                        radioCol : [{value : 'BRONZE', label : 'BRONZE', checked : true}, {value : 'SILVER', label : 'SILVER', checked : false}],
                         render : function(data, type, row, meta) {
                             return "<input TYPE='radio' id='input_" + meta.row + "_3_B' name='input_3_" + meta.row + "' value='BRONZE' " + ((data === 'BRONZE')?'checked':'') +" />" +
                                    "<label for='input_" + meta.row + "_3_B'>BRONZE</label>" + 
@@ -199,7 +205,7 @@
 
         });
 
-        $('#search').click(function() {
+        $('#search').on('click', function() {
             table.ajax.reload();
         });
 
