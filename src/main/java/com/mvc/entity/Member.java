@@ -1,6 +1,8 @@
 package com.mvc.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 import lombok.*;
 
@@ -15,9 +17,9 @@ public class Member {
     private String[] favoriteFoods;
     private boolean allowMail = true;
     private LocalDateTime registDate;
-
-    private Level level;
-
+    
+    private Level userLevel;
+    
     public Member() {}
     public Member(String name, String email, String password, String loginType) {
         this.name = name;
@@ -31,13 +33,13 @@ public class Member {
         this.allowMail = allowMail;
     }
 
-    public Member(String name, String email, String password, String loginType, boolean allowMail, Level level) {
+    public Member(String name, String email, String password, String loginType, boolean allowMail, Level userLevel) {
         this(name, email, password, loginType, allowMail);
-        this.level = level;
+        this.userLevel = userLevel;
     }
 
-    public Member(String name, String email, String password, String loginType, boolean allowMail, Level level, LocalDateTime registDate) {
-        this(name, email, password, loginType, allowMail, level);
+    public Member(String name, String email, String password, String loginType, boolean allowMail, Level userLevel, LocalDateTime registDate) {
+        this(name, email, password, loginType, allowMail, userLevel);
         this.registDate = registDate;
     }
     public LocalDateTime getRegistDate() {
@@ -109,6 +111,6 @@ public class Member {
     public boolean getAllowMail() { return allowMail; }
     public void setAllowMail(boolean allowMail) { this.allowMail = allowMail; }
 
-    public Level getLevel() { return level; }
-    public void setLevel(Level level) { this.level = level; }
+    public Level getUserLevel() { return userLevel; }
+    public void setUserLevel(Level userLevel) { this.userLevel = userLevel; }
 }

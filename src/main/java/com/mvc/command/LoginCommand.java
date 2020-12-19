@@ -7,10 +7,18 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class LoginCommand {
+    private int memberSeq;
     private String email;
     private String password;
     // Email 기억할지 쿠키
     private boolean rememberEmail;
+    
+    public int getMemberSeq() {
+        return memberSeq;
+    }
+    public void setMemberSeq(int memberSeq) {
+        this.memberSeq = memberSeq;
+    }
 
     public String getEmail() {
         return email;

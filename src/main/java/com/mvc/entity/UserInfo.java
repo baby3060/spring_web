@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class UserInfo {
+    private int memberSeq;
     private String email;
     private String name;
 }

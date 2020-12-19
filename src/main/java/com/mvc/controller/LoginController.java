@@ -63,7 +63,7 @@ public class LoginController {
         }
 
         try {
-            UserInfo info = authService.authenticate(command.getEmail(), command.getPassword());
+            UserInfo info = authService.authenticate(command.getMemberSeq(), command.getPassword());
 
             Cookie rememberCookie = new Cookie("REMEMBER_EMAIL", command.getEmail());
 

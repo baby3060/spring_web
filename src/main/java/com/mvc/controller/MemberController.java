@@ -70,8 +70,8 @@ public class MemberController {
         
         UserInfo info = (UserInfo)session.getAttribute("info");
         if( (info.getEmail() != null) && (!info.getEmail().equals(""))) {
-            if( memberService.count(info.getEmail()) == 1) {
-                Member member = memberService.selectMember(info.getEmail());
+            if( memberService.count(info.getMemberSeq()) == 1) {
+                Member member = memberService.selectMember(info.getMemberSeq());
                 if( member.getPassword().equals(command.getCurrentPassword()) ) {
                     memberService.updatePassword(member, command.getNewPassword());
                     return "member/changedPwd";

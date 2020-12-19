@@ -26,9 +26,9 @@ public class MemberMapperMaker {
                 member.setMemberSeq(rs.getInt("member_seq"));
                 member.setEmail(rs.getString("email"));
                 member.setPassword(rs.getString("password"));
-                member.setAllowMail(rs.getString("allow_mail").equals("T"));
+                member.setAllowMail(((rs.getString("allow_mail") == null)?false:rs.getString("allow_mail").equals("T")));
                 member.setLoginType(rs.getString("login_type"));
-                member.setLevel(Level.valueOf(rs.getInt("user_level")));
+                member.setUserLevel(Level.valueOf(rs.getInt("user_level")));
                 member.setRegistDate(rs.getTimestamp("regist_date").toLocalDateTime());
 
                 return member;

@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if( isPasswordAuth(member.getPassword(), password) ) {
-            return new UserInfo(member.getEmail(), member.getName());    
+            return new UserInfo(member.getMemberSeq(), member.getEmail(), member.getName());    
         } else {
             throw new IDNotMatchingException();
         }
