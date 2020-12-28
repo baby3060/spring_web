@@ -541,9 +541,12 @@
                 // DEBUG
                 // console.log(dt);
                 var columnDefs = this.completeColumnDefs();
+                
+                console.log(columnDefs);
+                
                 var data = this.createDialog(columnDefs, this.language.add.title, this.language.add.button,
                     this.language.modalClose, 'addRowBtn', 'altEditor-add-form');
-
+                
                 var selector = this.modal_selector;
                 $(selector + ' input[0]').trigger('focus');
                 $(selector).trigger("alteditor:some_dialog_opened").trigger("alteditor:add_dialog_opened");
@@ -570,6 +573,7 @@
                         msg: (obj.errorMsg ? obj.errorMsg : ''),        // FIXME no more used
                         hoverMsg: (obj.hoverMsg ? obj.hoverMsg : ''),
                         radioCol : (obj.radioCol ? obj.radioCol : [] ),
+                        checkvalues : (obj.checkvalues ? obj.checkvalues : [] ),
                         pattern: (obj.pattern ? obj.pattern : '.*'),
                         special: (obj.special ? obj.special : ''),
                         unique: (obj.unique ? obj.unique : false),

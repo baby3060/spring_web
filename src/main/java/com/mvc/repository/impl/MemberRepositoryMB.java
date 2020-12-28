@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
+import com.mvc.command.model.BoardSearchVO;
 import com.mvc.entity.Member;
 import com.mvc.repository.MemberRepository;
 
@@ -33,7 +34,7 @@ public class MemberRepositoryMB extends SqlSessionDaoSupport implements MemberRe
 
     }
 
-    public List<Member> listBasic() {
+    public List<Member> listBasic(BoardSearchVO search) {
         return new ArrayList<Member>();
     }
 

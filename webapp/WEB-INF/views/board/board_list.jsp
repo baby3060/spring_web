@@ -41,6 +41,7 @@
                     <th>이름</th>
                     <th>이메일</th>
                     <th>레벨</th>
+                    <th>메일 수신</th>
                 </tr>
             </thead>
         </table>
@@ -56,22 +57,28 @@
 
     <script>
 
-
         var table;
+        
         $(document).ready(function() {
+        	var initLen = 5;
+        	var noticeLen = 0;
+        	
             $('#level').val('${search.level}');
             $('#field').val('${search.field}');
 
-            table = $('#table').DataTable({
+            table = $('#table')
+            .DataTable({
                 serverSide : true,
                 processing : true,
                 info : false,
-                ordering : false,
+                ordering : true,
                 searching : false,
                 altEditor : true,
                 dom: 'Bfrtip',
                 responsive: true,
                 select: 'single',
+                lengthChange: true,
+                pageLength : initLen,
                 buttons: [
                     {
                     text: 'Add',
@@ -87,12 +94,14 @@
                     url : '../ajax/get_list',
                     type : 'POST',
                     dataSrc : function(json) {
+                    	console.log(json.data);
                         return json.data;
                     },
                     data : function(d) {
                         d.field = $('#field').val();
                         d.level = $('#level').val();
                         d.searchText = $('#searchText').val();
+                        d.initLength = initLen;
                     }
                 },
                 columns : [
@@ -100,7 +109,8 @@
                     {"data" : "memberSeq", "type" : "hidden"},
                     {"data" : "name"},
                     {"data" : "email"},
-                    {"data" : "userLevel", "special" : "user_level"}
+                    {"data" : "userLevel", "special" : "userLevel"},
+                    {"data" : "allowMail", "type" : "checkbox", "checkvalues" : ["F", "T"], "defaultContent" : "F"}
                 ],
                 columnDefs : [
                     {
@@ -132,6 +142,10 @@
                                    "<input TYPE='radio' id='input_" + meta.row + "_3_S' name='input_3_" + meta.row + "' value='1' " + ((data === 'SILVER')?'checked':'') +" />" +
                                    "<label for='input_" + meta.row + "_3_S'>SILVER</label>";
                         }
+                    },
+                    {
+                    	targets : 4,
+                    	visible : false
                     }
                 ],
                 'select': 'multi',
@@ -167,8 +181,21 @@
                     });
                 }
              });
-
-
+            
+            table.on('length.dt', function(e, settings, len) {
+            	console.log("change dt : " + len);
+            });
+            
+            table.on('xhr.dt', function(e, settings, json, xhr) {
+            	var api = new $.fn.dataTable.Api( settings );
+            	if( noticeLen != json.noticeLength ) {
+            		api.page.len( initLen );
+            		noticeLen = json.noticeLength;
+            	}
+            	
+            	console.log(json);
+            });
+            
             table.on('user-select',  function( e, dt, type, cell, originalEvent ) {
                 var row = dt.row( cell.index().row ).node();
                 var $curTarget = $(originalEvent.target);

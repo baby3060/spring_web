@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.mvc.command.model.BoardSearchVO;
 import com.mvc.entity.Member;
 import com.mvc.repository.MemberRepository;
 import com.mvc.repository.support.DaoSupport;
@@ -80,12 +81,15 @@ public class MemberRepositoryJT extends DaoSupport implements MemberRepository {
     }
 
     @Override
-    public List<Member> listBasic() {
+    public List<Member> listBasic(BoardSearchVO search) {
         MapSqlParameterSource param = new MapSqlParameterSource();
 
         List<Member> memberList = new ArrayList<Member>();
-
-        memberList = this.getNamedParameterJdbcTemplate().query("Select * From TBMEMBER Order By member_seq", param, this.simpleMapper);
+        
+        param.addValue("start", search.getStart());
+        param.addValue("end", search.getLength());
+        
+        memberList = this.getNamedParameterJdbcTemplate().query("Select * From TBMEMBER Order By member_seq limit :start, :end", param, this.simpleMapper);
 
         return memberList;
     }

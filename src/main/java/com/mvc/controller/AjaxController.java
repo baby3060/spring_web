@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 
 import com.mvc.entity.CUDVo;
+import com.mvc.entity.Level;
 import com.mvc.entity.Member;
 import com.mvc.repository.MemberRepository;
 import com.mvc.command.model.BoardSearchVO;
@@ -47,12 +49,49 @@ public class AjaxController {
         
         Map<String,Object> dataMaps = new HashMap<String,Object>();
         
-        List<Member> list = memberRepository.listBasic();
+        List<Member> list2 = new ArrayList<Member>();
+        
+        list2.add(new Member(101, "a", "a", "a", "a", false, Level.GOLD, null));
+        list2.add(new Member(102, "b", "b", "b", "b", false, Level.GOLD, null));
+        list2.add(new Member(103, "c", "c", "c", "c", false, Level.GOLD, null));
+        list2.add(new Member(104, "d", "d", "d", "d", false, Level.GOLD, null));
+        list2.add(new Member(105, "e", "e", "e", "e", false, Level.GOLD, null));
+        
+        int noticeLength = list2.size();
+        
+        search.setNoticeLength(noticeLength);
+        
+        System.out.println(search.getStart());
+        System.out.println(search.getNoticeLength() + ", " + search.getLength());
+        
+        // Notice Data가 있을 경우(항상 가져와야 하는 데이터)
+        if( search.getNoticeLength() > 0 ) {
+        	// 1 페이지(Loading)
+            if(search.getStart() != 0) {
+            	search.setStart((search.getStart() / search.getLength()) * search.getNoticeLength());
+            }
+        // 없을 경우
+        } else {
+        	
+        }
+        
+        // 항상 초기 Length로 초기화
+        search.setLength(search.getInitLength());
+        
+        System.out.println(search.getStart() + ", " + search.getLength());
+        
+        List<Member> list = memberRepository.listBasic(search);
+        
+        // 따로 합침
+        list2.addAll(list);
+        
         long countAll = memberRepository.countAll();
-        dataMaps.put("data", list);
+        dataMaps.put("data", list2);
+        
+        dataMaps.put("noticeLength", noticeLength);
         dataMaps.put("recordsTotal", countAll);
         dataMaps.put("recordsFiltered", countAll);
-
+        
         return gson.toJson(dataMaps);
     }
 
@@ -82,6 +121,8 @@ public class AjaxController {
 		cudVo.setListMap(paramList);
 		
 		int rtValue = -1;
+		
+		System.out.println(cudVo.getListMap());
 		
 		if( !code.equals("") ) {
         	if( code.equals("INSERT") ) {

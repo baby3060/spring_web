@@ -42,6 +42,12 @@ public class Member {
         this(name, email, password, loginType, allowMail, userLevel);
         this.registDate = registDate;
     }
+    
+    public Member(int memberSeq, String name, String email, String password, String loginType, boolean allowMail, Level userLevel, LocalDateTime registDate) {
+        this(name, email, password, loginType, allowMail, userLevel, registDate);
+        this.memberSeq = memberSeq;
+    }
+    
     public LocalDateTime getRegistDate() {
         return registDate;
     }
