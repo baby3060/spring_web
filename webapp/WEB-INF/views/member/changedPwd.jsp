@@ -14,7 +14,7 @@
             비밀번호 변경 완료
         </p>
         <p>
-            <a href="<c:url value='/main' />">
+            <a href="<c:url value='/main.do' />">
                 메인으로
             </a>
         </p>

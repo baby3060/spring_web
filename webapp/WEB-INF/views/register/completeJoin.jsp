@@ -12,6 +12,6 @@
 	<spring:message code="register.complete" />
     <p><spring:message code="register.done" arguments="${registerMember.name}" /></p>
     
-    <a href="<c:url value='/main'/>">[<spring:message code="go.main" />]</a>
+    <a href="<c:url value='/main.do'/>">[<spring:message code="go.main" />]</a>
 </body>
 </html>

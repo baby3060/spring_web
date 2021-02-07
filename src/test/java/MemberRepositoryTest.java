@@ -40,20 +40,4 @@ public class MemberRepositoryTest {
         assertThat(count, is(0L));
     }
 
-    @Test
-    public void registTest() {
-        long count = memberRepository.countAll();
-
-        assertThat(count, is(0L));
-
-        Member member = new Member("Test", "1234@fi.com", "123456", "1", true, Level.BRONZE);
-
-        int result = memberRepository.regist(member);
-
-        assertThat(result, is(1));
-        count = memberRepository.countAll();
-
-        assertThat(count, is(1L));
-    }
-
 }

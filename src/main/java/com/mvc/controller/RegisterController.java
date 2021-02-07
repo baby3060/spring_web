@@ -3,6 +3,10 @@ package com.mvc.controller;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -29,18 +33,35 @@ public class RegisterController<memberService> {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/step1")
-    public String handleStep1() {
+    @RequestMapping("/step1")
+    public String handleStep1(
+    		@RequestParam(value = "agree", defaultValue = "false") Boolean agreeWrap
+    		, @RequestParam(value = "email", required=false) String email
+    		, @RequestParam(required=false) String mobile
+    		, @RequestParam(required=false) String name
+    		, Model model
+    		) {
+    	
+    	model.addAttribute("agree", agreeWrap);
+    	model.addAttribute("mobile", mobile);
+    	model.addAttribute("email", email);
+    	model.addAttribute("name", name);
+    	
         return "register/step1";
     }
     
-    @GetMapping("/step2") 
-    public String handleStpe2(@RequestParam(value = "agree", defaultValue = "false") Boolean agreeWrap, Model model){
+    @RequestMapping("/step2") 
+    public String handleStpe2(@RequestParam(value = "agree", defaultValue = "false") Boolean agreeWrap, Model model, @RequestParam(required = false) String email, @RequestParam(required = false) String mobile, @RequestParam(required = false) String name){
         String result = "redirect:step1";
 
         if( agreeWrap ) {
             result = "register/step2";
-            model.addAttribute("registerMember", new Member());
+            Member member = new Member();
+            member.setEmail(email);
+            member.setMobile(mobile);
+            member.setName(name);
+            
+            model.addAttribute("registerMember", member);
             registerModel(model);
         } 
 
@@ -54,23 +75,29 @@ public class RegisterController<memberService> {
 
         String nextUrl = "";
         
-        
         if(errors.hasErrors()) {
         	registerModel(model);
             
             model.addAttribute("member", member);
             nextUrl = "register/step2";
         } else {
-            int result = memberService.regist(member);
+        	if(memberService.countByMobile(member.getMobile()) == 0) {
+        		int result = memberService.regist(member);
 
-            if( result == 1 ) {
-                nextUrl = "register/completeJoin";
-            } else {
-            	registerModel(model);
+                if( result == 1 ) {
+                    nextUrl = "register/completeJoin";
+                } else {
+                	registerModel(model);
+                    model.addAttribute("member", member);
+                    nextUrl = "register/step2";
+                    errors.rejectValue("email", "duplicate");
+                }
+        	} else {
+        		registerModel(model);
                 model.addAttribute("member", member);
                 nextUrl = "register/step2";
-                errors.rejectValue("email", "duplicate");
-            }
+                errors.rejectValue("mobile", "duplicate");
+        	}
         }
 
         return nextUrl;

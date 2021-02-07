@@ -12,7 +12,7 @@
 </head>
 <body>
     <p>
-        <a href="<c:url value='/main' />">
+        <a href="<c:url value='/main.do' />">
             메인으로
         </a>
     </p>

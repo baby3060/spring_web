@@ -83,7 +83,7 @@ public class MemberController {
             } else {
                 String[] args = {info.getEmail()};
                 errors.reject("NOMember", args, "");
-                return "redirect:/main";
+                return "redirect:/main.do";
             }
         } else {
             return "redirect:/login";

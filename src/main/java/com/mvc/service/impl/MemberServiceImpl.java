@@ -20,8 +20,8 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     public int regist(Member member) {
-        if( member.getLevel() == null ) {
-            member.setLevel(Level.BRONZE);
+        if( member.getUserLevel() == null ) {
+            member.setUserLevel(Level.BRONZE);
         }
 
         return memberRepository.regist(member);
@@ -30,7 +30,18 @@ public class MemberServiceImpl implements MemberService {
     public int count(int memberSeq) {
         return memberRepository.count(memberSeq);
     }
-
+    
+    @Override
+    public int countByMobile(String mobile) {
+    	return memberRepository.countByMobile(mobile.replaceAll("-", ""));
+    }
+    
+    @Override
+    public int countByEmail(String email) {
+    	// TODO Auto-generated method stub
+    	return memberRepository.countByEmail(email);
+    }
+    
     public Member selectMember(int memberSeq) {
         return memberRepository.selectMember(memberSeq);
     }
@@ -45,12 +56,29 @@ public class MemberServiceImpl implements MemberService {
         if( from != null && to != null ) {
             memberList = memberRepository.listFromTo(from, to);
         } else {
-            memberList = memberRepository.listBasic();
+            memberList = memberRepository.listBasic(null);
         }
 
         return memberList;
     }
 
+    @Override
+    public Member selectMemberByMobile(String mobile) {
+    	return memberRepository.selectMemberByMobile(mobile.replace("-", ""));
+    }
+
+    @Override
+    public int countByEmailPass(String email, String password) {
+    	// TODO Auto-generated method stub
+    	return memberRepository.countByEmailPass(email, password);
+    }
+    
+    @Override
+    public Member selectMemberByEmail(String email) {
+    	// TODO Auto-generated method stub
+    	return memberRepository.selectMemberByEmail(email);
+    }
+    
     public void accesssTest(Member member) throws RuntimeException {
         
     }

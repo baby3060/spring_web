@@ -51,12 +51,6 @@ public class AjaxController {
         
         List<Member> list2 = new ArrayList<Member>();
         
-        list2.add(new Member(101, "a", "a", "a", "a", false, Level.GOLD, null));
-        list2.add(new Member(102, "b", "b", "b", "b", false, Level.GOLD, null));
-        list2.add(new Member(103, "c", "c", "c", "c", false, Level.GOLD, null));
-        list2.add(new Member(104, "d", "d", "d", "d", false, Level.GOLD, null));
-        list2.add(new Member(105, "e", "e", "e", "e", false, Level.GOLD, null));
-        
         int noticeLength = list2.size();
         
         search.setNoticeLength(noticeLength);

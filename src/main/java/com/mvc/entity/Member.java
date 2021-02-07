@@ -17,36 +17,9 @@ public class Member {
     private String[] favoriteFoods;
     private boolean allowMail = true;
     private LocalDateTime registDate;
+    private String mobile;
     
     private Level userLevel;
-    
-    public Member() {}
-    public Member(String name, String email, String password, String loginType) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.loginType = loginType;
-    }
-
-    public Member(String name, String email, String password, String loginType, boolean allowMail) {
-        this(name, email, password, loginType);
-        this.allowMail = allowMail;
-    }
-
-    public Member(String name, String email, String password, String loginType, boolean allowMail, Level userLevel) {
-        this(name, email, password, loginType, allowMail);
-        this.userLevel = userLevel;
-    }
-
-    public Member(String name, String email, String password, String loginType, boolean allowMail, Level userLevel, LocalDateTime registDate) {
-        this(name, email, password, loginType, allowMail, userLevel);
-        this.registDate = registDate;
-    }
-    
-    public Member(int memberSeq, String name, String email, String password, String loginType, boolean allowMail, Level userLevel, LocalDateTime registDate) {
-        this(name, email, password, loginType, allowMail, userLevel, registDate);
-        this.memberSeq = memberSeq;
-    }
     
     public LocalDateTime getRegistDate() {
         return registDate;
@@ -119,4 +92,10 @@ public class Member {
 
     public Level getUserLevel() { return userLevel; }
     public void setUserLevel(Level userLevel) { this.userLevel = userLevel; }
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 }

@@ -17,6 +17,6 @@
     <p>응답자 위치 : <c:out value="${ansData.res.location}" escapeXml="false"/></p>
     <p>응답자 나이 : <c:out value="${ansData.res.age}" escapeXml="false"/></p>
 
-    <a href="<c:url value='/main'/>">첫 페이지로</a>
+    <a href="<c:url value='/main.do'/>">첫 페이지로</a>
 </body>
 </html>

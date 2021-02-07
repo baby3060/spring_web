@@ -19,13 +19,32 @@ public class AuthServiceImpl implements AuthService {
     public void setMemberService(MemberService memberService) {
         this.memberService = memberService;
     }
-
+    
     @Override
-    public UserInfo authenticate(int memberSeq, String password) {
-        Member member = null;
+    public UserInfo authenticate(int memberSeq) {
+    	Member member = null;
 
         if(memberService.count(memberSeq) == 1) {
             member = memberService.selectMember(memberSeq);
+        }
+
+        if( member == null ) {
+            throw new NotMatchingMemberException();
+        }
+
+        if( isPasswordAuth(member.getPassword(), member.getPassword()) ) {
+        	return new UserInfo(member.getMemberSeq(), member.getEmail(), member.getName());
+        } else {
+            throw new IDNotMatchingException();
+        }
+    }
+
+    @Override
+    public UserInfo authenticate(String email, String password) {
+        Member member = null;
+
+        if(memberService.countByEmail(email) == 1) {
+            member = memberService.selectMemberByEmail(email);
         }
 
         if( member == null ) {

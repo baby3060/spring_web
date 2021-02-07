@@ -32,8 +32,11 @@ public class RegisterMemberValidator implements Validator {
             }
         }
         
+        // 휴대전화 패턴도 체크해야 하지만 귀찮으니까 PASS
+        
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mobile", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "loginType", "required");
         

@@ -13,11 +13,10 @@
 <body>
     <h2>회원 정보 입력</h2>
     <form:form id="joinForm" action="joinproc" modelAttribute="registerMember"
-        cssStyle="background-color : gray; color : red;"
     >
         <p>
             <label for="email"><spring:message code="email" />:<br />
-                <form:input path="email" />
+                <form:input path="email" value="${email }"/>
                 <form:errors path="email" />
             </label>
             <form:checkbox path="allowMail" label="이메일 수신을 허용합니다." />
@@ -25,7 +24,7 @@
 
         <p>
             <label for="name"><spring:message code="name" />:<br />
-                <form:input path="name" />
+                <form:input path="name" value="${name }"/>
                 <form:errors path="name" />
             </label>
         </p>
@@ -40,6 +39,13 @@
             <label for="confirmPassword"><spring:message code="password.confirm" />:<br />
                 <form:password path="confirmPassword" />
                 <form:errors path="confirmPassword" />
+            </label>
+        </p>
+        
+        <p>
+            <label for="mobile"><spring:message code="mobile" />:<br />
+                <form:input path="mobile" value="${mobile }"/>
+                <form:errors path="mobile" />
             </label>
         </p>
         

@@ -10,6 +10,6 @@ public class LogoutController {
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/main";
+        return "redirect:/main.do";
     }
 }
